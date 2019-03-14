@@ -20,17 +20,12 @@ namespace UsersServer.Group
                 nm.NotNullable(true);
             });
 
-            Bag(g => g.Name, u =>
+            Bag(g => g.Users, gm =>
             {
-                u.Table("Users2Groups");
-                u.Key(k =>
-                {
-                    k.Column("Id");
-                    k.NotNullable(true);
-                });
-                u.Cascade(Cascade.All);
-                u.Inverse(true);
-            }, g => g.ManyToMany(m => m.Column("Id")));
+                gm.Table("Users2Groups");
+                gm.Key(k => k.Column("Id"));
+                gm.Cascade(Cascade.None);
+            }, m => m.ManyToMany(t => t.Column("GroupId")));
         }
     }
 }

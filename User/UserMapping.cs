@@ -35,6 +35,13 @@ namespace UsersServer.User
                 m.Length(255);
                 m.NotNullable(true);
             });
+
+            Bag(u => u.Groups, cm =>
+            {
+                cm.Table("Users2Groups");
+                cm.Key(k => k.Column("Id"));
+                cm.Cascade(Cascade.None); // usunięcie użytkownika nie powinno usuwać grupy, usunięcie grupy nie powinno usuwać użytkownika
+            }, m => m.ManyToMany(t => t.Column("UserId")));
         }
     }
 }
