@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace UsersServer
+namespace UsersServer.CLI
 {
 //  Defines options for application's CLI 
     public class Options
@@ -10,7 +10,7 @@ namespace UsersServer
 
     }
 
-    [Verb("create-db", HelpText = "Create a database.")]
+    [Verb("create-db", HelpText = "Create a database and setup its schema.")]
     public class DatabaseCreate
     {
         [Option('s', "server", Required = true, HelpText = @"Specify [server]\instance where for Database to be set e.g. localhost\SQLEXPRESS")]

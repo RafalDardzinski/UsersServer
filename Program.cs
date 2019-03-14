@@ -7,6 +7,7 @@ using CommandLine;
 using NHibernate.Cfg;
 using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Tool.hbm2ddl;
+using UsersServer.CLI;
 using UsersServer.Database;
 using UsersServer.User;
 
@@ -20,15 +21,7 @@ namespace UsersServer
 
             try
             {
-                CommandLine.Parser.Default.ParseArguments<DatabaseCreate, Options>(args)
-                    .MapResult(
-                        (DatabaseCreate o) =>
-                        {
-                            SetupDatabase(o.ServerInstance, o.DatabaseName);
-                            return 0;
-                        },
-                        errs => 1
-                    );
+                CLIRouter.Route(args);
             }
             catch (Exception e)
             {
@@ -38,7 +31,7 @@ namespace UsersServer
             //SetupDatabase(@"localhost\SQLEXPRESS", "natalie-portman3");
         }
 
-        static void SetupDatabase(string serverInstance, string dbName)
+        public static void SetupDatabase(string serverInstance, string dbName)
         {
             var connectionString = MsSqlDatabaseManager.Create(serverInstance, dbName);
             var models = MappingCompiler.CompileModels();

@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLI\CLIRouter.cs" />
     <Compile Include="Database\MappingCompiler.cs" />
     <Compile Include="Database\MsSqlConfiguration.cs" />
     <Compile Include="Database\MsSqlDatabaseManager.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="ErrorHandler\ErrorHandler.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Model.cs" />
-    <Compile Include="Options.cs" />
+    <Compile Include="CLI\Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\UserMapping.cs" />
@@ -110,8 +111,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CLI\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
