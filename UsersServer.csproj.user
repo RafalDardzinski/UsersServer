@@ -10,4 +10,9 @@
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartArguments>create-db -s localhost\SQLEXPRESS -n loremipsumdolorsitamet</StartArguments>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
 </Project>
