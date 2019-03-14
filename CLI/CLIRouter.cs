@@ -19,6 +19,11 @@ namespace UsersServer.CLI
                         Program.SetupDatabase(o.ServerInstance, o.DatabaseName);
                         return 0;
                     },
+                    (UserAdd u) =>
+                    {
+                        
+                        return 0;
+                    },
                     errs => 1
                 );
         }
