@@ -39,7 +39,8 @@ namespace UsersServer.Database
             var connectionString = $@"Server={serverInstance};Integrated Security=true;";
             Init(connectionString, out var sessionManager);
 
-            using (var command = sessionManager.Open().Connection.CreateCommand())
+            using (var session = sessionManager.Open())
+            using (var command = session.Connection.CreateCommand())
             {
                 // teoretycznie to powinno być zsanityzowane, ale dostęp do tej metody będzie miała osoba ustawiająca bazę danych, więc zakładam że nie będzie zainteresowana SQL injection :)
                 command.CommandText = $@"create database [{dbName}]";
