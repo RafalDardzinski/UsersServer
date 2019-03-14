@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
+using UsersServer.Group;
 using UsersServer.User;
 
 namespace UsersServer.Database
@@ -17,6 +18,7 @@ namespace UsersServer.Database
             // tutaj wolałbym przekazać listę klas, ale nie wiem jeszcze jak to poprawnie zrobić, dlatego koduję modele na sztywno
             var modelMapper = new ModelMapper();
             modelMapper.AddMapping<UserMapping>();
+            modelMapper.AddMapping<GroupMapping>();
             return modelMapper.CompileMappingForAllExplicitlyAddedEntities();
         }
     }

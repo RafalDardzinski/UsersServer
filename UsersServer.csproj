@@ -85,6 +85,8 @@
     <Compile Include="Database\MsSqlDatabaseManager.cs" />
     <Compile Include="Database\SessionManager.cs" />
     <Compile Include="ErrorHandler\ErrorHandler.cs" />
+    <Compile Include="Group\GroupMapping.cs" />
+    <Compile Include="Group\GroupModel.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="CLI\Options.cs" />

@@ -12,6 +12,7 @@ namespace UsersServer.User
     {
         public UserMapping()
         {
+            Table("Users");
             Id(u => u.Id, im => im.Generator(Generators.Identity));
             Property(u => u.FirstName, m =>
             {
