@@ -79,11 +79,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\IDatabaseManager.cs" />
-    <Compile Include="Database\IDatabaseSessionManager.cs" />
+    <Compile Include="Database\MappingCompiler.cs" />
     <Compile Include="Database\MsSqlConfiguration.cs" />
     <Compile Include="Database\MsSqlDatabaseManager.cs" />
-    <Compile Include="Database\MsSqlSessionManager.cs" />
+    <Compile Include="Database\SessionManager.cs" />
+    <Compile Include="ErrorHandler\ErrorHandler.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Options.cs" />

@@ -10,11 +10,14 @@ namespace UsersServer
 
     }
 
-    [Verb("create-db", HelpText = "Creates a database")]
-    public class DatabaseOptions
+    [Verb("create-db", HelpText = "Create a database.")]
+    public class DatabaseCreate
     {
-        [Option("name", Required = true, HelpText = "Specify database name")]
-        public string DbName { get; set; }
+        [Option('s', "server", Required = true, HelpText = @"Specify [server]\instance where for Database to be set e.g. localhost\SQLEXPRESS")]
+        public string ServerInstance { get; set; }
+
+        [Option('n', "name", Required = true, HelpText = @"Specify the name of the database.")]
+        public string DatabaseName { get; set; }
 
     }
 }
