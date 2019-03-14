@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Cfg;
+using Configuration = NHibernate.Cfg.Configuration;
 
 namespace UsersServer.Database
 {
-    class MsSqlSessionManager : IDatabaseSessionManager
+    public class SessionManager
     {
-        public ISession Session { get; private set; }
         private readonly ISessionFactory _sessionFactory;
-
-        public MsSqlSessionManager(Configuration configuration)
+        public SessionManager(Configuration configuration)
         {
             _sessionFactory = configuration.BuildSessionFactory();
         }
 
-        public void Open()
+        public ISession Open()
         {
-            Session = _sessionFactory.OpenSession();
-            
+            return _sessionFactory.OpenSession();
         }
 
-        public void Close()
+        public void Close(ISession session)
         {
-            Session.Close();
+            session.Close();
         }
     }
 }

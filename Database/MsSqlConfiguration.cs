@@ -4,19 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NHibernate.Cfg;
-using NHibernate.Connection;
+using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Driver;
 using NHibernate.Mapping.ByCode;
-using NHibernate.Mapping.ByCode.Conformist;
 using UsersServer.User;
 
 namespace UsersServer.Database
 {
     public class MsSqlConfiguration : Configuration
     {
+        // klasa tworząca konkretną konfigurację dla nHibernate
+        public MsSqlConfiguration(string connectionString, HbmMapping compiledModels, string mappingDocumentFileName)
+        {
+            SetDatabaseIntegration(connectionString);
+            SetModelMappings(compiledModels, mappingDocumentFileName);
+        }
 
-        public MsSqlConfiguration(string connectionString)
+        public MsSqlConfiguration(string connectionString, HbmMapping compiledModels)
+            : this(connectionString, compiledModels, "default")
+        {
+            
+        }
+        
+
+        private void SetDatabaseIntegration(string connectionString)
         {
             this.DataBaseIntegration(db =>
             {
@@ -24,16 +36,11 @@ namespace UsersServer.Database
                 db.Dialect<MsSql2012Dialect>();
                 db.Driver<SqlClientDriver>();
             });
-            MapModels("mssql-db");
         }
 
-        private void MapModels(string documentFileName)
+        private void SetModelMappings(HbmMapping compiledModels, string documentFileName)
         {
-            var modelMapper = new ModelMapper();
-            modelMapper.AddMapping(new UserMapping());
-
-            var compiledMapping = modelMapper.CompileMappingForAllExplicitlyAddedEntities();
-            this.AddDeserializedMapping(compiledMapping, documentFileName);
+            this.AddDeserializedMapping(compiledModels, documentFileName);
         }
     }
 }
