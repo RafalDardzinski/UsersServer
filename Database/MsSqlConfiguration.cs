@@ -17,6 +17,7 @@ namespace UsersServer.Database
         // klasa tworząca konkretną konfigurację dla nHibernate
         public MsSqlConfiguration(string connectionString, HbmMapping compiledModels, string mappingDocumentFileName)
         {
+            Console.WriteLine(connectionString);
             SetDatabaseIntegration(connectionString);
             SetModelMappings(compiledModels, mappingDocumentFileName);
         }

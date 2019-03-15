@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using NHibernate.Cfg;
+using UsersServer.User;
 
 namespace UsersServer.Database
 {
-    public class MsSqlDatabaseManager
+    public class MsSqlDatabaseManager : IDatabaseManager
     {
         private readonly SessionManager _sessionManager;
         private readonly Configuration _configuration;
+
+        public delegate void RepositoryCommand(NHibernate.ISession session);
+
         public MsSqlDatabaseManager(SessionManager sessionManager, Configuration configuration)
         {
             _sessionManager = sessionManager;
@@ -22,7 +28,8 @@ namespace UsersServer.Database
             // inicjalizacja zależności - SessionManager
             var models = MappingCompiler.CompileModels();
             var configuration = new MsSqlConfiguration(connectionString, models);
-            sessionManager = new SessionManager(configuration);
+            var sm = new SessionManager(configuration);
+            sessionManager = sm;
         }
 
         public static void Init(string connectionString, out SessionManager sessionManager, out Configuration configuration)
@@ -50,6 +57,12 @@ namespace UsersServer.Database
             return connectionString + $"Database={dbName};";
         }
 
-
+        public void Execute(Repository.RepositoryCommand x)
+        {
+            using (var session = _sessionManager.Open())
+            {
+                x(session);
+            }
+        }
     }
 }
