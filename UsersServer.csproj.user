@@ -11,7 +11,7 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>create-db -s localhost\SQLEXPRESS -n loremipsumdolorsitamet</StartArguments>
+    <StartArguments>user-add -s Server=localhost\SQLEXPRESS%3bIntegrated Security=true%3b -f John -l Rambo -u johnrambo555 -p loremipsum</StartArguments>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <StartAction>Project</StartAction>
   </PropertyGroup>

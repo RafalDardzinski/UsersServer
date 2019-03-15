@@ -18,7 +18,6 @@ namespace UsersServer
         
         static void Main(string[] args)
         {
-
             try
             {
                 CLIRouter.Route(args);
@@ -28,7 +27,7 @@ namespace UsersServer
                 ErrorHandler.ErrorHandler.Handle(e);
             }
 
-            //SetupDatabase(@"localhost\SQLEXPRESS", "natalie-portman3");
+            
         }
 
         public static void SetupDatabase(string serverInstance, string dbName)
