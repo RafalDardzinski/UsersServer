@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
+using UsersServer.Database;
+using UsersServer.User;
 
 namespace UsersServer.CLI
 {
@@ -12,7 +15,7 @@ namespace UsersServer.CLI
     {
         public static void Route(string[] args)
         {
-            CommandLine.Parser.Default.ParseArguments<DatabaseCreate, Options>(args)
+            CommandLine.Parser.Default.ParseArguments<DatabaseCreate, UserAdd>(args)
                 .MapResult(
                     (DatabaseCreate o) =>
                     {
@@ -21,7 +24,17 @@ namespace UsersServer.CLI
                     },
                     (UserAdd u) =>
                     {
-                        
+                        var user = new UserModel
+                        {
+                            Username = u.Username,
+                            Password = u.Password,
+                            FirstName = u.FirstName,
+                            LastName = u.LastName
+
+                        };
+
+                        Console.WriteLine("Adding user - todo");
+
                         return 0;
                     },
                     errs => 1

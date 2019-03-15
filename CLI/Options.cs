@@ -4,13 +4,6 @@ using CommandLine.Text;
 namespace UsersServer.CLI
 {
 //  Defines options for application's CLI 
-    public class Options
-    {
-        [Option("test", Required = false, HelpText = "This is just a test")]
-        public bool Test { get; set; }
-
-    }
-
     [Verb("database-create", HelpText = "Create a database and setup its schema.")]
     public class DatabaseCreate
     {
