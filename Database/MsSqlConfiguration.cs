@@ -15,25 +15,25 @@ namespace UsersServer.Database
     public class MsSqlConfiguration : Configuration
     {
         // klasa tworząca konkretną konfigurację dla nHibernate
-        public MsSqlConfiguration(string connectionString, HbmMapping compiledModels, string mappingDocumentFileName)
+        public MsSqlConfiguration(MsSqlConnectionString connectionString, HbmMapping compiledModels, string mappingDocumentFileName)
         {
-            Console.WriteLine(connectionString);
+            Console.WriteLine(connectionString.Value);
             SetDatabaseIntegration(connectionString);
             SetModelMappings(compiledModels, mappingDocumentFileName);
         }
 
-        public MsSqlConfiguration(string connectionString, HbmMapping compiledModels)
+        public MsSqlConfiguration(MsSqlConnectionString connectionString, HbmMapping compiledModels)
             : this(connectionString, compiledModels, "default")
         {
             
         }
         
 
-        private void SetDatabaseIntegration(string connectionString)
+        private void SetDatabaseIntegration(MsSqlConnectionString connectionString)
         {
             this.DataBaseIntegration(db =>
             {
-                db.ConnectionString = connectionString;
+                db.ConnectionString = connectionString.Value;
                 db.Dialect<MsSql2012Dialect>();
                 db.Driver<SqlClientDriver>();
             });

@@ -15,7 +15,7 @@ namespace UsersServer.Database
         private readonly SessionManager _sessionManager;
         private readonly Configuration _configuration;
 
-        public delegate void RepositoryCommand(NHibernate.ISession session);
+        //public delegate void RepositoryCommand(NHibernate.ISession session);
 
         public MsSqlDatabaseManager(SessionManager sessionManager, Configuration configuration)
         {
@@ -23,7 +23,7 @@ namespace UsersServer.Database
             _configuration = configuration;
         }
 
-        public static void Init(string connectionString, out SessionManager sessionManager)
+        public static void Init(MsSqlConnectionString connectionString, out SessionManager sessionManager)
         {
             // inicjalizacja zależności - SessionManager
             var models = MappingCompiler.CompileModels();
@@ -32,7 +32,7 @@ namespace UsersServer.Database
             sessionManager = sm;
         }
 
-        public static void Init(string connectionString, out SessionManager sessionManager, out Configuration configuration)
+        public static void Init(MsSqlConnectionString connectionString, out SessionManager sessionManager, out Configuration configuration)
         {
             // inicjalizacja zależności SessionManager oraz Configuration
             var models = MappingCompiler.CompileModels();
@@ -40,10 +40,10 @@ namespace UsersServer.Database
             sessionManager = new SessionManager(configuration);
         }
 
-        public static string Create(string serverInstance, string dbName)
+        public static void Create(string serverInstance, string dbName)
         {
             // tworzy nową bazę danych
-            var connectionString = $@"Server={serverInstance};Integrated Security=true;";
+            var connectionString = new MsSqlConnectionString(serverInstance);
             Init(connectionString, out var sessionManager);
 
             using (var session = sessionManager.Open())
@@ -53,8 +53,7 @@ namespace UsersServer.Database
                 command.CommandText = $@"create database [{dbName}]";
                 command.ExecuteNonQuery();
             }
-
-            return connectionString + $"Database={dbName};";
+            
         }
 
         public void Execute(Repository.RepositoryCommand x)
