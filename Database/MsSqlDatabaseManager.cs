@@ -1,67 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using NHibernate.Cfg;
+using NHibernate.Cfg.MappingSchema;
+using NHibernate.Tool.hbm2ddl;
 using UsersServer.User;
 
 namespace UsersServer.Database
 {
+    // 
     public class MsSqlDatabaseManager : IDatabaseManager
     {
         private readonly SessionManager _sessionManager;
         private readonly Configuration _configuration;
+        private readonly HbmMapping _models;
 
-        //public delegate void RepositoryCommand(NHibernate.ISession session);
+        public MsSqlDatabaseManager(MsSqlConnectionString connectionString)
+        {
+            _models = MappingCompiler.CompileModels();
+            _configuration = new MsSqlConfiguration(connectionString, _models);
+            _sessionManager = new SessionManager(_configuration);
+        }
 
         public MsSqlDatabaseManager(SessionManager sessionManager, Configuration configuration)
         {
+            _models = MappingCompiler.CompileModels();
             _sessionManager = sessionManager;
             _configuration = configuration;
         }
 
-        public static void Init(MsSqlConnectionString connectionString, out SessionManager sessionManager)
+        // Ustawia schemat bazy danych.
+        public void SetupSchema()
         {
-            // inicjalizacja zależności - SessionManager
-            var models = MappingCompiler.CompileModels();
-            var configuration = new MsSqlConfiguration(connectionString, models);
-            var sm = new SessionManager(configuration);
-            sessionManager = sm;
+            new SchemaExport(_configuration).Create(false, true);
         }
 
-        public static void Init(MsSqlConnectionString connectionString, out SessionManager sessionManager, out Configuration configuration)
-        {
-            // inicjalizacja zależności SessionManager oraz Configuration
-            var models = MappingCompiler.CompileModels();
-            configuration = new MsSqlConfiguration(connectionString, models);
-            sessionManager = new SessionManager(configuration);
-        }
-
-        public static void Create(string serverInstance, string dbName)
-        {
-            // tworzy nową bazę danych
-            var connectionString = new MsSqlConnectionString(serverInstance);
-            Init(connectionString, out var sessionManager);
-
-            using (var session = sessionManager.Open())
-            using (var command = session.Connection.CreateCommand())
-            {
-                // teoretycznie to powinno być zsanityzowane, ale dostęp do tej metody będzie miała osoba ustawiająca bazę danych, więc zakładam że nie będzie zainteresowana SQL injection :)
-                command.CommandText = $@"create database [{dbName}]";
-                command.ExecuteNonQuery();
-            }
-            
-        }
-
-        public void Execute(Repository.RepositoryCommand x)
+        // Wykonuje operację udostępnioną przez repozytorium. Po wykonaniu polecenia zamyka sesję.
+        public void Execute(Repository.RepositoryCommand repositoryCommand)
         {
             using (var session = _sessionManager.Open())
             {
-                x(session);
+                repositoryCommand(session);
             }
+        }
+
+        // Umożliwia wykonanie kodu SQL na bazie danych. Po wykonaniu polecenia zamyka sesję.
+        private void Execute(string dbCommandText)
+        {
+            using (var session = _sessionManager.Open())
+            using (var command = session.Connection.CreateCommand())
+            {
+                command.CommandText = dbCommandText;
+                command.ExecuteNonQuery();
+            }
+        }
+
+        // Tworzy nową bazę danych, zwraca connection string do nowej bazy danych.
+        public static MsSqlConnectionString Create(string serverInstance, string dbName)
+        {
+            var connectionString = new MsSqlConnectionString(serverInstance);
+            var dbManager = new MsSqlDatabaseManager(connectionString);
+            dbManager.Execute($@"create database [{dbName}]");
+            return new MsSqlConnectionString(serverInstance, dbName);
         }
     }
 }

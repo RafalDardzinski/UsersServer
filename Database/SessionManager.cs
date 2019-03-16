@@ -12,7 +12,9 @@ namespace UsersServer.Database
 {
     public class SessionManager
     {
+        // Manager sesji dla nHibernate. 
         private readonly ISessionFactory _sessionFactory;
+        private ISession _session;
         public SessionManager(Configuration configuration)
         {
             _sessionFactory = configuration.BuildSessionFactory();
@@ -20,12 +22,20 @@ namespace UsersServer.Database
 
         public ISession Open()
         {
-            return _sessionFactory.OpenSession();
+            if (_session == null)
+            {
+                _session = _sessionFactory.OpenSession();
+                return _session;
+            }
+            if (_session.IsOpen) throw new InvalidOperationException("Session is already open.");
+
+            _session = _sessionFactory.OpenSession();
+            return _session;
         }
 
-        public void Close(ISession session)
+        public void Close()
         {
-            session.Close();
+            _session.Close();
         }
     }
 }

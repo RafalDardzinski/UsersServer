@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace UsersServer.Database
 {
+    // Tworzy connection string dla bazy MSSQL.
     public class MsSqlConnectionString
     {
-        private readonly string _connectionStringBase = @"Integrated Security=true;";
+        private readonly string _connectionStringBase = @"Integrated Security=true;"; // dla uproszczenia tylko integrated security
         private readonly string _serverInstance;
         private readonly string _databaseName;
 

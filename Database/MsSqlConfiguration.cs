@@ -14,21 +14,21 @@ namespace UsersServer.Database
 {
     public class MsSqlConfiguration : Configuration
     {
-        // klasa tworząca konkretną konfigurację dla nHibernate
+        // Tworzy konkretną konfigurację MSSQL dla nHibernate 
         public MsSqlConfiguration(MsSqlConnectionString connectionString, HbmMapping compiledModels, string mappingDocumentFileName)
         {
-            Console.WriteLine(connectionString.Value);
             SetDatabaseIntegration(connectionString);
             SetModelMappings(compiledModels, mappingDocumentFileName);
         }
 
+        // Przeciążenie konstruktora używające domyślnej nazwy dokumentu mapującego.
         public MsSqlConfiguration(MsSqlConnectionString connectionString, HbmMapping compiledModels)
             : this(connectionString, compiledModels, "default")
         {
             
         }
         
-
+        // Ustawia integrację z bazą danych MSSQL na podstawie connection string.
         private void SetDatabaseIntegration(MsSqlConnectionString connectionString)
         {
             this.DataBaseIntegration(db =>
@@ -39,6 +39,7 @@ namespace UsersServer.Database
             });
         }
 
+        // Dodaje skompilowane modele do konfiguracji.
         private void SetModelMappings(HbmMapping compiledModels, string documentFileName)
         {
             this.AddDeserializedMapping(compiledModels, documentFileName);
