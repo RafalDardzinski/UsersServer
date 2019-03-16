@@ -83,12 +83,14 @@
     <Compile Include="Database\IDatabaseManager.cs" />
     <Compile Include="Database\MappingCompiler.cs" />
     <Compile Include="Database\MsSqlConfiguration.cs" />
+    <Compile Include="Database\MsSqlConnectionString.cs" />
     <Compile Include="Database\MsSqlDatabaseManager.cs" />
     <Compile Include="Database\SessionManager.cs" />
     <Compile Include="ErrorHandler\ErrorHandler.cs" />
     <Compile Include="Group\GroupMapping.cs" />
     <Compile Include="Group\GroupModel.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="CLI\Options.cs" />
     <Compile Include="Program.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="User\UserMapping.cs" />
     <Compile Include="User\UserModel.cs" />
     <Compile Include="User\UserRepository.cs" />
+    <Compile Include="Util\AppConfigManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

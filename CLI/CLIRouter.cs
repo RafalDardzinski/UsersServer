@@ -19,7 +19,7 @@ namespace UsersServer.CLI
                 .MapResult(
                     (DatabaseCreate o) =>
                     {
-                        Program.SetupDatabase(o.ServerInstance, o.DatabaseName);
+                        Program.CreateDatabase(o.ServerInstance, o.DatabaseName);
                         return 0;
                     },
                     (UserAdd u) =>
@@ -32,7 +32,7 @@ namespace UsersServer.CLI
                             LastName = u.LastName
 
                         };
-
+                        // TODO: Add a user.
                         Console.WriteLine("Adding user - todo");
 
                         return 0;

@@ -26,17 +26,13 @@ namespace UsersServer
             {
                 ErrorHandler.ErrorHandler.Handle(e);
             }
-
-            
         }
 
-        public static void SetupDatabase(string serverInstance, string dbName)
+        public static void CreateDatabase(string serverInstance, string dbName)
         {
-            var connectionString = MsSqlDatabaseManager.Create(serverInstance, dbName);
-            var models = MappingCompiler.CompileModels();
-            var configuration = new MsSqlConfiguration(connectionString, models);
-            new SchemaExport(configuration).Create(false, true);
-            Console.WriteLine($@"{dbName}@{serverInstance} has been setup successfully!");
+            var newDatabaseConnectionString = MsSqlDatabaseManager.Create(serverInstance, dbName);
+            new MsSqlDatabaseManager(newDatabaseConnectionString).SetupSchema();
+            Logger.Log($"Database {dbName} created successfully.");
         }
 
     }
