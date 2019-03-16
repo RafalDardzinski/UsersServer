@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace UsersServer.ErrorHandler
 {
+    // Docelowa obsługa wyjątków na podstawie ich typów. Póki co prosta implementacja usuwająca stack trace jeśli aplikacja nie jest uruchomiona w trybie DEBUG. 
     class ErrorHandler
-    // klasa docelowo obsługująca wyjątki na podstawie typów. Póki co prosta implementacja usuwająca stack trace. 
     {
         public static void Handle(Exception exception)
         {
 #if DEBUG
-            Console.WriteLine(exception.Message);
-            Console.WriteLine(exception.StackTrace);
-            return;
+            throw exception;
 #endif
             Handle((dynamic) exception);
         }
