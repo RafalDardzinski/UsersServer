@@ -99,7 +99,7 @@
     <Compile Include="User\UserMapping.cs" />
     <Compile Include="User\UserModel.cs" />
     <Compile Include="User\UserRepository.cs" />
-    <Compile Include="Util\AppConfigManager.cs" />
+    <Compile Include="AppConfigManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
