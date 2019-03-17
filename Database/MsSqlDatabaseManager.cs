@@ -44,8 +44,10 @@ namespace UsersServer.Database
         public void Execute(Repository.RepositoryCommand repositoryCommand)
         {
             using (var session = _sessionManager.Open())
+            using (var tx = session.BeginTransaction())
             {
                 repositoryCommand(session);
+                tx.Commit();
             }
         }
 
@@ -61,12 +63,18 @@ namespace UsersServer.Database
         }
 
         // Tworzy nową bazę danych, zwraca connection string do nowej bazy danych.
-        public static MsSqlConnectionString Create(string serverInstance, string dbName)
+        public static void Create(string serverInstance, string dbName)
         {
+            // Create database
             var connectionString = new MsSqlConnectionString(serverInstance);
             var dbManager = new MsSqlDatabaseManager(connectionString);
             dbManager.Execute($@"create database [{dbName}]");
-            return new MsSqlConnectionString(serverInstance, dbName);
+
+            // Upload schema
+            var newDatabaseConnectionString = new MsSqlConnectionString(serverInstance, dbName);
+            new MsSqlDatabaseManager(newDatabaseConnectionString).SetupSchema();
+            Logger.Log($"Database {dbName} created successfully.");
+            AppConfigManager.SetConnectionString(newDatabaseConnectionString);
         }
     }
 }
