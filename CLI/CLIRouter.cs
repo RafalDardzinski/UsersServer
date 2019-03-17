@@ -20,7 +20,10 @@ namespace UsersServer.CLI
             CommandLine.Parser.Default.ParseArguments<
                     DatabaseCreate, 
                     UserCreate, 
-                    UserRead>(args)
+                    UserRead,
+                    UserUpdate,
+                    UserPasswordUpdate,
+                    UserDelete>(args)
                 .MapResult(
                     (DatabaseCreate o) =>
                     {
@@ -36,6 +39,21 @@ namespace UsersServer.CLI
                     {
                         var users = User.User.Read(c.Id, c.FirstName, c.LastName, c.Username);
                         DataDisplayer.Display(users);
+                        return 0;
+                    },
+                    (UserUpdate u) =>
+                    {
+                        User.User.Update(u.Id, u.FirstName, u.LastName, u.Username);
+                        return 0;
+                    },
+                    (UserPasswordUpdate u) =>
+                    {
+                        User.User.Update(u.Id, newPassword:u.Password);
+                        return 0;
+                    },
+                    (UserDelete u) =>
+                    {
+                        User.User.Delete(u.Id);
                         return 0;
                     },
                     errs => 1

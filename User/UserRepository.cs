@@ -12,9 +12,11 @@ namespace UsersServer.User
     // Repozytorium użytkowników odpowiada za bezpośrednie operacje na bazie danych.
     // Każdej publicznej metodzie odpowiada także metoda prywatna która przekazywana jest do MsSqlDatabaseManager jako delegat a następnie wywoływana z instancją sesji jako argumentem.
     // Dzięki temu logika zapytań pozostaje w repozytorium, a zarządzaniem sesją i tranzakcjami zajmuje się DatabaseManager.
-    public class UserRepository : Repository
+    class UserRepository : Repository
     {
         private UserModel _userToAdd;
+        private UserModel _userToUpdate;
+        private UserModel _userToDelete;
         private SearchCriteria _searchCriteria;
         private IList<UserModel> _foundUsers;
 
@@ -60,18 +62,41 @@ namespace UsersServer.User
         }
 
 
-        public void Update()
+        public void Update(UserModel user, string newFirstName = null, string newLastName = null, string newUsername = null, string newPassword = null)
         {
-            throw new NotImplementedException();
+            if (user == null)
+                throw new InvalidOperationException("User does not exist.");
+            user.FirstName = newFirstName ?? user.FirstName;
+            user.LastName = newLastName ?? user.LastName;
+            user.Username = newUsername ?? user.Username;
+            user.Password = newPassword ?? user.Password;
+            _userToUpdate = user;
+            RepositoryCommand cmd = _Update;
+            DatabaseManager.Execute(cmd);
+            Logger.Log("User updated.");
         }
 
-        public void Delete()
+        private void _Update(NHibernate.ISession session)
         {
-            throw new NotImplementedException();
+            session.SaveOrUpdate(_userToUpdate);
+            
+        }
+
+        public void Delete(UserModel user)
+        {
+            _userToDelete = user ?? throw new InvalidOperationException("User does not exist.");
+            RepositoryCommand cmd = _Delete;
+            DatabaseManager.Execute(cmd);
+            Logger.Log("User deleted.");
+        }
+
+        private void _Delete(NHibernate.ISession session)
+        {
+            session.Delete(_userToDelete);
         }
     }
 
-    class SearchCriteria
+    internal class SearchCriteria
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

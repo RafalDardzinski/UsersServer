@@ -82,7 +82,10 @@
     <Compile Include="CLI\CLIRouter.cs" />
     <Compile Include="CLI\Options\DatabaseCreate.cs" />
     <Compile Include="CLI\Options\UserCreate.cs" />
+    <Compile Include="CLI\Options\UserDelete.cs" />
+    <Compile Include="CLI\Options\UserPasswordUpdate.cs" />
     <Compile Include="CLI\Options\UserRead.cs" />
+    <Compile Include="CLI\Options\UserUpdate.cs" />
     <Compile Include="Database\IDatabaseManager.cs" />
     <Compile Include="Database\MappingCompiler.cs" />
     <Compile Include="Database\MsSqlConfiguration.cs" />

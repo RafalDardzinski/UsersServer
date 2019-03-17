@@ -19,6 +19,7 @@ namespace UsersServer
         static void Main(string[] args)
         {
             CLIRouter.Route(args);
+
             try
             {
             }
