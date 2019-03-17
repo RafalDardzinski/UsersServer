@@ -18,7 +18,7 @@ namespace UsersServer
         
         static void Main(string[] args)
         {
-                CLIRouter.Route(args);
+            CLIRouter.Route(args);
             try
             {
             }
@@ -26,14 +26,6 @@ namespace UsersServer
             {
                 ErrorHandler.ErrorHandler.Handle(e);
             }
-        }
-
-        public static void CreateDatabase(string serverInstance, string dbName)
-        {
-            var newDatabaseConnectionString = MsSqlDatabaseManager.Create(serverInstance, dbName);
-            new MsSqlDatabaseManager(newDatabaseConnectionString).SetupSchema();
-            Logger.Log($"Database {dbName} created successfully.");
-            AppConfigManager.SetConnectionString(newDatabaseConnectionString);
         }
 
     }
