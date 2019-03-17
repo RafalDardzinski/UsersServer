@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,13 @@ namespace UsersServer
         }
 
         // Pobiera connection string.
-        public static string GetConnectionString() => ConnectionStrings["AppDatabase"].ConnectionString;
+        public static MsSqlConnectionString GetConnectionString()
+        {
+            var connectionStringRaw = ConnectionStrings["AppDatabase"].ConnectionString;
+            var builder = new SqlConnectionStringBuilder(connectionStringRaw);
+            builder.TryGetValue("Server", out var server);
+            builder.TryGetValue("Database", out var database);
+            return new MsSqlConnectionString(server.ToString(), database.ToString());
+        }
     }
 }
