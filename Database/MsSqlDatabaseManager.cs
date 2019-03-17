@@ -68,7 +68,7 @@ namespace UsersServer.Database
             // Create database
             var connectionString = new MsSqlConnectionString(serverInstance);
             var dbManager = new MsSqlDatabaseManager(connectionString);
-            dbManager.Execute($@"create database [{dbName}]");
+            dbManager.Execute($@"create database [{dbName}]"); // wiem że to się aż prosi o SQL Injection, ale nHibernate nie udostępnia paramterów dla DDL, a to polecenie będzie dostępne tylko z poziomu CLI...
 
             // Upload schema
             var newDatabaseConnectionString = new MsSqlConnectionString(serverInstance, dbName);

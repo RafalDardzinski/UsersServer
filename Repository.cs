@@ -10,10 +10,11 @@ namespace UsersServer
     public abstract class Repository
     {
         public delegate void RepositoryCommand(NHibernate.ISession session);
-        protected readonly IDatabaseManager _databaseManager;
+
+        protected readonly IDatabaseManager DatabaseManager;
         protected Repository(IDatabaseManager databaseManager)
         {
-            _databaseManager = databaseManager;
+            DatabaseManager = databaseManager;
         }
     }
 }
