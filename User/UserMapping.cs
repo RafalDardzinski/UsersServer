@@ -40,8 +40,9 @@ namespace UsersServer.User
             {
                 cm.Table("Users2Groups");
                 cm.Key(k => k.Column("GroupId"));
-                cm.Cascade(Cascade.None); // usunięcie użytkownika nie powinno usuwać grupy, usunięcie grupy nie powinno usuwać użytkownika
+                cm.Cascade(Cascade.None);
                 //cm.Inverse(true);
+                cm.Lazy(CollectionLazy.NoLazy); // chcę mieć dostęp do wszystkich grup do których należy użytkownik.
             }, m => m.ManyToMany(t => t.Column("UserId")));
         }
     }

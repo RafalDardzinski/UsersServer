@@ -13,17 +13,25 @@ namespace UsersServer
     {
         public static void Display(IList<UserModel> users)
         {
-            string displayText = "";
+            var displayText = "";
             foreach (var user in users)
             {
-                displayText += $"\nId: {user.UserId}\nUsername: {user.Username}\nFirstName: {user.FirstName}\nLastName: {user.LastName}\n";
+                var groups = GetGroupNames(user);
+                displayText += $"\nId: {user.UserId}\nUsername: {user.Username}\nFirstName: {user.FirstName}\nLastName: {user.LastName}\nGroups: {groups}\n";
             }
             Logger.Log(displayText);
+
+            // Lokalna metoda agregująca nazwy group do których należy użytkownik i zamieniająca je na ciąg znaków.
+            string GetGroupNames(UserModel user)
+            {
+                var groupNames = user.Groups.Select(g => g.Name);
+                return String.Join(", ", groupNames);
+            } 
         }
 
         public static void Display(IList<GroupModel> groups)
         {
-            string displayText = "";
+            var displayText = "";
             foreach (var group in groups)
             {
                 displayText += $"\nId: {group.GroupId}\nName: {group.Name}\n";
