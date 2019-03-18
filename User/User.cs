@@ -23,7 +23,7 @@ namespace UsersServer.User
             repository.Create(user);
         }
 
-        public static IList<UserModel> Read(int id, string firstname = null, string lastname = null, string username = null)
+        public static IList<UserModel> Read(int id = 0, string firstname = null, string lastname = null, string username = null)
         {
             return repository.Read(id, firstname, lastname, username);
         }

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace UsersServer
 {
-    interface IRepository
+    interface IRepository<T> where T : class
     {
-        void Create(Model model);
-        List<Model> Read();
-        Model Read(Delegate filterFunc); // read specific
-        void Update();
-        void Delete();
+        void Create(T modelInstance);
+        IList<T> Read(SearchCriteria<T> searchCriteria);
+        void Update(T modelInstance, UpdatedProperties<T> updatedProperties);
+        void Delete(T modelInstance);
     }
 }
