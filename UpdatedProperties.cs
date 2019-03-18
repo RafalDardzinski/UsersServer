@@ -15,6 +15,7 @@ namespace UsersServer
             _properties = properties;
         }
 
+        // Zaktualizuj instancję modelu. Dla każdego modelu musi być zdefiniowana oddzielnie.
         public abstract T Set(T model);
     }
 }

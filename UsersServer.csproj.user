@@ -12,8 +12,13 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>user-add-to-group -u 1 -g 1</StartArguments>
+    <StartArguments>user-create -f Andrew -l Palmer -u username -p passw
+</StartArguments>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <StartArguments>user-create -f Andrew -l Palmer -u username -p passw
+</StartArguments>
   </PropertyGroup>
 </Project>

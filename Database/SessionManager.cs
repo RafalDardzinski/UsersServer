@@ -10,9 +10,9 @@ using Configuration = NHibernate.Cfg.Configuration;
 
 namespace UsersServer.Database
 {
+    // Klasa kontrolująca sesję nHibernate.
     public class SessionManager
     {
-        // Manager sesji dla nHibernate. 
         private readonly ISessionFactory _sessionFactory;
         private ISession _session;
         public SessionManager(Configuration configuration)

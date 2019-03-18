@@ -9,10 +9,12 @@ using UsersServer.Database;
 
 namespace UsersServer.Group
 {
+    // Serwis udostępniający funkcjonalności dla Grupy. Jest bezpośrednim łącznikiem pomiędzy Repozytorium a CLI.
     public class Group
     {
         private static readonly GroupRepository Repository = new GroupRepository(new MsSqlDatabaseManager(AppConfigManager.GetConnectionString()));
 
+        // Tworzy nową grupę.
         public static void Create(string name)
         {
             var group = new GroupModel
@@ -21,8 +23,10 @@ namespace UsersServer.Group
                 
             };
             Repository.Create(group);
+            Logger.Log("Group created.");
         }
 
+        // Zwraca listę grup znalezioną na podstawie przekazanych kryteriów.
         public static IList<GroupModel> Read(int id = 0, string name = null)
         {
             var searchProperties = new Dictionary<string, string> {{"GroupId", id.ToString()}, {"Name", name}};
@@ -32,6 +36,7 @@ namespace UsersServer.Group
 
         }
 
+        // Znajduje grupę (po id) i aktualizuje jej pola na podstawie przekazanych argumentów.
         public static void Update(int id, string name)
         {
             var group = Read(id).FirstOrDefault();
@@ -41,12 +46,15 @@ namespace UsersServer.Group
             var newProperties = new Dictionary<string, dynamic> {{"Name", name}};
             var updatedProperties = new GroupUpdatedProperties(newProperties);
             Repository.Update(group, updatedProperties);
+            Logger.Log("Group updated.");
         }
 
+        // Znajduje grupę (po id) i usuwa ją.
         public static void Delete(int id)
         {
             var group = Read(id).FirstOrDefault();
             Repository.Delete(group);
+            Logger.Log("Group deleted. Removed group references from users assigned to the group.");
         }
     }
 
@@ -56,6 +64,7 @@ namespace UsersServer.Group
         {
         }
 
+        // Implementacja właściwa dla modelu grupy.
         public override void ApplyToQuery(IQueryOver<GroupModel, GroupModel> query)
         {
             _filterProperties.TryGetValue("GroupId", out var idValue);
@@ -76,10 +85,12 @@ namespace UsersServer.Group
             
         }
 
+        // Implementacja właściwa dla modelu grupy.
         public override GroupModel Set(GroupModel group)
         {
             _properties.TryGetValue("Name", out var name);
 
+            // Nie zmieniaj właściwości jeśli nie są one zdefiniowane.
             group.Name = name ?? group.Name;
 
             return group;

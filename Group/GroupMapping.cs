@@ -26,7 +26,6 @@ namespace UsersServer.Group
                 gm.Table("Users2Groups");
                 gm.Key(k => k.Column("UserId"));
                 gm.Cascade(Cascade.None);
-                //gm.Inverse(true);
                 
             }, m => m.ManyToMany(t => t.Column("GroupId")));
         }

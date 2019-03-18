@@ -51,17 +51,7 @@ namespace UsersServer.Database
             }
         }
 
-        public void Execute(RepositoryTemp.RepositoryCommand repositoryCommand)
-        {
-            using (var session = _sessionManager.Open())
-            using (var tx = session.BeginTransaction())
-            {
-                repositoryCommand(session);
-                tx.Commit();
-            }
-        }
-
-        // Umożliwia wykonanie kodu SQL na bazie danych. Po wykonaniu polecenia zamyka sesję.
+        // Umożliwia wykonanie kodu SQL na bazie danych. Po wykonaniu polecenia zamyka sesję. Metoda prywatna, bo używana tylko do stworzenia bazy danych.
         private void Execute(string dbCommandText)
         {
             using (var session = _sessionManager.Open())
@@ -72,15 +62,16 @@ namespace UsersServer.Database
             }
         }
 
-        // Tworzy nową bazę danych, zwraca connection string do nowej bazy danych.
+        // Tworzy nową bazę danych i zwraca do niej connection string.
+        // Nie znalazłem sposobu na stworzenie bazy danych od zera za pomocą nHibernate w inny sposób niż wykonanie surowego SQL.
         public static void Create(string serverInstance, string dbName)
         {
-            // Create database
+            // Stwórz bazę danych.
             var connectionString = new MsSqlConnectionString(serverInstance);
             var dbManager = new MsSqlDatabaseManager(connectionString);
             dbManager.Execute($@"create database [{dbName}]"); // wiem że to się aż prosi o SQL Injection, ale nHibernate nie udostępnia paramterów dla DDL, a to polecenie będzie dostępne tylko z poziomu CLI...
 
-            // Upload schema
+            // Załaduj schemat do bazy danych.
             var newDatabaseConnectionString = new MsSqlConnectionString(serverInstance, dbName);
             new MsSqlDatabaseManager(newDatabaseConnectionString).SetupSchema();
             Logger.Log($"Database {dbName} created successfully.");

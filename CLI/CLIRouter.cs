@@ -12,7 +12,7 @@ using UsersServer.User;
 
 namespace UsersServer.CLI
 {
-    // Klasa odpowiadająca za wywoływanie funkcji na podstawie przekazanych argumentów.
+    // Klasa odpowiadająca za wywoływanie funkcji serwisów w zależności od inputu przekazanego przez użytkownika.
     class CLIRouter
     {
         public static void Route(string[] args)

@@ -18,13 +18,13 @@ namespace UsersServer
         
         static void Main(string[] args)
         {
-            CLIRouter.Route(args);
-
             try
             {
+                CLIRouter.Route(args);
             }
             catch (Exception e)
             {
+                // Delegowanie błędów do klasy je obsługującej
                 ErrorHandler.ErrorHandler.Handle(e);
             }
         }

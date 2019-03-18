@@ -12,6 +12,7 @@ using UsersServer.User;
 
 namespace UsersServer.Database
 {
+    // Klasa odpowiadająca za stworzenie konfiguracji dla Database Managera.
     public class MsSqlConfiguration : Configuration
     {
         // Tworzy konkretną konfigurację MSSQL dla nHibernate 
