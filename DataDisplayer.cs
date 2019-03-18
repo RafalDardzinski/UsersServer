@@ -16,7 +16,7 @@ namespace UsersServer
             string displayText = "";
             foreach (var user in users)
             {
-                displayText += $"\nId: {user.Id}\nUsername: {user.Username}\nFirstName: {user.FirstName}\nLastName: {user.LastName}\n";
+                displayText += $"\nId: {user.UserId}\nUsername: {user.Username}\nFirstName: {user.FirstName}\nLastName: {user.LastName}\n";
             }
             Logger.Log(displayText);
         }
@@ -26,7 +26,7 @@ namespace UsersServer
             string displayText = "";
             foreach (var group in groups)
             {
-                displayText += $"\nId: {group.Id}\nName: {group.Name}\n";
+                displayText += $"\nId: {group.GroupId}\nName: {group.Name}\n";
             }
             Logger.Log(displayText);
         }

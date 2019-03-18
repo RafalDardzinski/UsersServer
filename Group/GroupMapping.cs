@@ -13,7 +13,7 @@ namespace UsersServer.Group
         public GroupMapping()
         {
             Table("Groups");
-            Id(g => g.Id, im => im.Generator(Generators.Identity));
+            Id(g => g.GroupId, im => im.Generator(Generators.Identity));
             Property(u => u.Name, nm =>
             {
                 nm.Length(50);
@@ -24,8 +24,10 @@ namespace UsersServer.Group
             Bag(g => g.Users, gm =>
             {
                 gm.Table("Users2Groups");
-                gm.Key(k => k.Column("Id"));
+                gm.Key(k => k.Column("UserId"));
                 gm.Cascade(Cascade.None);
+                //gm.Inverse(true);
+                
             }, m => m.ManyToMany(t => t.Column("GroupId")));
         }
     }

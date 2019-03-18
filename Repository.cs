@@ -13,7 +13,7 @@ namespace UsersServer
     public abstract class Repository<T> : IRepository<T> where T : class
     {
         private T _resourceToAdd;
-        private T _resourceToUpdate;
+        protected T _resourceToUpdate;
         private T _resourceToDelete;
         private IList<T> _resourcesFound;
         protected SearchCriteria<T> _searchCriteria;

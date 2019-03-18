@@ -85,10 +85,12 @@
     <Compile Include="CLI\Options\GroupDelete.cs" />
     <Compile Include="CLI\Options\GroupRead.cs" />
     <Compile Include="CLI\Options\GroupUpdate.cs" />
+    <Compile Include="CLI\Options\UserAddToGroup.cs" />
     <Compile Include="CLI\Options\UserCreate.cs" />
     <Compile Include="CLI\Options\UserDelete.cs" />
     <Compile Include="CLI\Options\UserPasswordUpdate.cs" />
     <Compile Include="CLI\Options\UserRead.cs" />
+    <Compile Include="CLI\Options\UserRemoveFromGroup.cs" />
     <Compile Include="CLI\Options\UserUpdate.cs" />
     <Compile Include="Database\IDatabaseManager.cs" />
     <Compile Include="Database\MappingCompiler.cs" />

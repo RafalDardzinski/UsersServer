@@ -22,6 +22,8 @@ namespace UsersServer.CLI
                     UserCreate, 
                     UserRead,
                     UserUpdate,
+                    UserAddToGroup,
+                    UserRemoveFromGroup,
                     UserPasswordUpdate,
                     UserDelete,
                     GroupCreate,
@@ -48,6 +50,16 @@ namespace UsersServer.CLI
                     (UserUpdate u) =>
                     {
                         User.User.Update(u.Id, u.FirstName, u.LastName, u.Username);
+                        return 0;
+                    },
+                    (UserAddToGroup p) =>
+                    {
+                        User.User.AddToGroup(p.UserId, p.GroupId);
+                        return 0;
+                    },
+                    (UserRemoveFromGroup p) =>
+                    {
+                        User.User.RemoveFromGroup(p.UserId, p.GroupId);
                         return 0;
                     },
                     (UserPasswordUpdate u) =>

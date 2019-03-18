@@ -23,9 +23,9 @@ namespace UsersServer.Group
             Repository.Create(group);
         }
 
-        public static IList<GroupModel> Read(int id = 0, string name = "")
+        public static IList<GroupModel> Read(int id = 0, string name = null)
         {
-            var searchProperties = new Dictionary<string, string> {{"Id", id.ToString()}, {"Name", name}};
+            var searchProperties = new Dictionary<string, string> {{"GroupId", id.ToString()}, {"Name", name}};
             var searchCriteria = new GroupSearchCriteria(searchProperties);
 
             return Repository.Read(searchCriteria);
@@ -34,9 +34,11 @@ namespace UsersServer.Group
 
         public static void Update(int id, string name)
         {
-            var newProperties = new Dictionary<string, dynamic> {{"Name", name}};
-
             var group = Read(id).FirstOrDefault();
+            if (group == null)
+                throw new InvalidOperationException("Group not found.");
+
+            var newProperties = new Dictionary<string, dynamic> {{"Name", name}};
             var updatedProperties = new GroupUpdatedProperties(newProperties);
             Repository.Update(group, updatedProperties);
         }
@@ -56,11 +58,11 @@ namespace UsersServer.Group
 
         public override void ApplyToQuery(IQueryOver<GroupModel, GroupModel> query)
         {
-            _filterProperties.TryGetValue("Id", out var idValue);
+            _filterProperties.TryGetValue("GroupId", out var idValue);
             _filterProperties.TryGetValue("Name", out var name);
 
             if (int.Parse(idValue) > 0)
-                query.Where(g => g.Id == int.Parse(idValue));
+                query.Where(g => g.GroupId == int.Parse(idValue));
             if (!String.IsNullOrEmpty(name))
                 query.Where(g => g.Name == name);
 

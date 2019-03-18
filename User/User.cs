@@ -28,7 +28,7 @@ namespace UsersServer.User
         {
             var searchProperties = new Dictionary<string, string>
             {
-                {"Id", id.ToString()},
+                {"UserId", id.ToString()},
                 {"FirstName", firstname },
                 {"LastName", lastname },
                 {"Username", username }
@@ -58,6 +58,16 @@ namespace UsersServer.User
             Repository.Update(user, updatedProperties);
         }
 
+        public static void AddToGroup(int userId, int groupId)
+        {
+            Repository.AddToGroup(userId, groupId);
+        }
+
+        public static void RemoveFromGroup(int userId, int groupId)
+        {
+            Repository.RemoveFromGroup(userId, groupId);
+        }
+
         public static void Delete(int id)
         {
             var user = Read(id).FirstOrDefault();
@@ -74,13 +84,13 @@ namespace UsersServer.User
 
             public override void ApplyToQuery(IQueryOver<UserModel, UserModel> query)
             {
-                _filterProperties.TryGetValue("Id", out var idValue);
+                _filterProperties.TryGetValue("UserId", out var idValue);
                 _filterProperties.TryGetValue("Username", out var username);
                 _filterProperties.TryGetValue("FirstName", out var firstName);
                 _filterProperties.TryGetValue("LastName", out var lastName);
 
                 if (int.Parse(idValue) > 0)
-                    query.Where(u => u.Id == int.Parse(idValue));
+                    query.Where(u => u.UserId == int.Parse(idValue));
                 if (!String.IsNullOrEmpty(username))
                     query.Where(u => u.Username == username);
                 if (!String.IsNullOrEmpty(firstName))

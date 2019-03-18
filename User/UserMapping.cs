@@ -13,7 +13,7 @@ namespace UsersServer.User
         public UserMapping()
         {
             Table("Users");
-            Id(u => u.Id, im => im.Generator(Generators.Identity));
+            Id(u => u.UserId, im => im.Generator(Generators.Identity));
             Property(u => u.FirstName, m =>
             {
                 m.Length(50);
@@ -39,8 +39,9 @@ namespace UsersServer.User
             Bag(u => u.Groups, cm =>
             {
                 cm.Table("Users2Groups");
-                cm.Key(k => k.Column("Id"));
+                cm.Key(k => k.Column("GroupId"));
                 cm.Cascade(Cascade.None); // usunięcie użytkownika nie powinno usuwać grupy, usunięcie grupy nie powinno usuwać użytkownika
+                //cm.Inverse(true);
             }, m => m.ManyToMany(t => t.Column("UserId")));
         }
     }
