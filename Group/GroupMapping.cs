@@ -18,6 +18,7 @@ namespace UsersServer.Group
             {
                 nm.Length(50);
                 nm.NotNullable(true);
+                nm.Unique(true);
             });
 
             Bag(g => g.Users, gm =>

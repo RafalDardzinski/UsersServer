@@ -23,7 +23,11 @@ namespace UsersServer.CLI
                     UserRead,
                     UserUpdate,
                     UserPasswordUpdate,
-                    UserDelete>(args)
+                    UserDelete,
+                    GroupCreate,
+                    GroupRead,
+                    GroupUpdate,
+                    GroupDelete> (args)
                 .MapResult(
                     (DatabaseCreate o) =>
                     {
@@ -54,6 +58,27 @@ namespace UsersServer.CLI
                     (UserDelete u) =>
                     {
                         User.User.Delete(u.Id);
+                        return 0;
+                    },
+                    (GroupCreate g) =>
+                    {
+                        Group.Group.Create(g.Name);
+                        return 0;
+                    },
+                    (GroupRead g) =>
+                    {
+                        var groups = Group.Group.Read(g.Id, g.Name);
+                        DataDisplayer.Display(groups);
+                        return 0;
+                    },
+                    (GroupUpdate g) =>
+                    {
+                        Group.Group.Update(g.Id, g.Name);
+                        return 0;
+                    },
+                    (GroupDelete g) =>
+                    {
+                        Group.Group.Delete(g.Id);
                         return 0;
                     },
                     errs => 1

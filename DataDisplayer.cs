@@ -16,7 +16,17 @@ namespace UsersServer
             string displayText = "";
             foreach (var user in users)
             {
-                displayText += $"Id: {user.Id}\nUsername: {user.Username}\nFirstName: {user.FirstName}\nLastName: {user.LastName}\n\n";
+                displayText += $"\nId: {user.Id}\nUsername: {user.Username}\nFirstName: {user.FirstName}\nLastName: {user.LastName}\n";
+            }
+            Logger.Log(displayText);
+        }
+
+        public static void Display(IList<GroupModel> groups)
+        {
+            string displayText = "";
+            foreach (var group in groups)
+            {
+                displayText += $"\nId: {group.Id}\nName: {group.Name}\n";
             }
             Logger.Log(displayText);
         }
