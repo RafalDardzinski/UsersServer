@@ -41,7 +41,17 @@ namespace UsersServer.Database
         }
 
         // Wykonuje operację udostępnioną przez repozytorium. Po wykonaniu polecenia zamyka sesję.
-        public void Execute(Repository.RepositoryCommand repositoryCommand)
+        public void Execute(RepositoryCommand repositoryCommand)
+        {
+            using (var session = _sessionManager.Open())
+            using (var tx = session.BeginTransaction())
+            {
+                repositoryCommand(session);
+                tx.Commit();
+            }
+        }
+
+        public void Execute(RepositoryTemp.RepositoryCommand repositoryCommand)
         {
             using (var session = _sessionManager.Open())
             using (var tx = session.BeginTransaction())

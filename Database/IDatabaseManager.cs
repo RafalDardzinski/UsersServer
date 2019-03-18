@@ -8,6 +8,6 @@ namespace UsersServer.Database
 {
     public interface IDatabaseManager
     {
-        void Execute(Repository.RepositoryCommand command);
+        void Execute(RepositoryCommand command);
     }
 }
