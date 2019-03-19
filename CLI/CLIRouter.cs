@@ -17,6 +17,26 @@ namespace UsersServer.CLI
     {
         public static void Route(string[] args)
         {
+            // Aplikacja potrzebuje bazy danych do uruchomienia, dlatego dopóki nie zostanie ona utworzona, nie udostępnia innych funkcjonalności.
+            if (String.IsNullOrEmpty(AppConfigManager.GetConnectionString().Value))
+            {
+                CommandLine.Parser.Default.ParseArguments<DatabaseCreate>(args)
+                    .MapResult(
+                        (DatabaseCreate o) =>
+                        {
+                            MsSqlDatabaseManager.Create(o.ServerInstance, o.DatabaseName);
+                            return 0;
+                        },
+                        errs =>
+                        {
+                            Logger.Log("Please create a database first.");
+                            return 1;
+                        }
+                    );
+                return;
+            }
+            
+            // Standardowe funkcjonalności udostępnione w momencie gdy w konfiguracji zapisany jest connection string do bazy danych.
             CommandLine.Parser.Default.ParseArguments<
                     DatabaseCreate, 
                     UserCreate, 
