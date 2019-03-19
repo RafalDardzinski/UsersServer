@@ -17,6 +17,8 @@ namespace UsersServer.Database
         {
             get
             {
+                if (String.IsNullOrWhiteSpace(_serverInstance))
+                    return null;
                 var connectionString = String.Copy(_connectionStringBase);
                 if (!String.IsNullOrWhiteSpace(_serverInstance))
                     connectionString += $@"Server={_serverInstance};";
