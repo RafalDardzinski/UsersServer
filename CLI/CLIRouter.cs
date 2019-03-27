@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using CommandLine;
 using UsersServer.CLI.Options;
 using UsersServer.Database;
-using UsersServer.User;
 
 namespace UsersServer.CLI
 {

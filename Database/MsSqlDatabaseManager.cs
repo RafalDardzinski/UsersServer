@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Linq.Expressions;
-using System.ServiceModel.Channels;
-using System.Text;
-using System.Threading.Tasks;
-using NHibernate.Cfg;
+﻿using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Tool.hbm2ddl;
-using UsersServer.User;
 
 namespace UsersServer.Database
 {
