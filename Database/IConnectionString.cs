@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NHibernate;
 
 namespace UsersServer.Database
 {
-    public interface IDatabaseManager
+    public interface IConnectionString
     {
-        IConnectionString Create(ISession session, string serverName, string dbName);
+        string Value { get; }
     }
 }

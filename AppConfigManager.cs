@@ -9,7 +9,7 @@ namespace UsersServer
     public class AppConfigManager
     {
         // Zapisuje connection string aby nie było potrzebne precyzowanie go podczas operacji na danych.
-        public static void SetConnectionString(MsSqlConnectionString connectionString)
+        public static void SetConnectionString(IConnectionString connectionString)
         {
             var config = OpenExeConfiguration(ConfigurationUserLevel.None);
             var connectionStringsSection = (ConnectionStringsSection)config.GetSection("connectionStrings");
@@ -20,7 +20,7 @@ namespace UsersServer
         }
 
         // Pobiera connection string.
-        public static MsSqlConnectionString GetConnectionString()
+        public static IConnectionString GetConnectionString()
         {
             var connectionStringRaw = ConnectionStrings["AppDatabase"].ConnectionString;
             var builder = new SqlConnectionStringBuilder(connectionStringRaw);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UsersServer.Database;
 
 namespace UsersServer
@@ -9,56 +10,39 @@ namespace UsersServer
     // Repozytorium odpowiada za wykonywanie podstawowych CRUD-owych operacji na bazie danych.
     public abstract class Repository<T> : IRepository<T> where T : class
     {
-        private T _resourceToAdd;
         private T _resourceToUpdate;
-        private T _resourceToDelete;
-        private IList<T> _resourcesFound;
+        protected readonly NHibernate.ISession _session;
 
         protected SearchCriteria<T> SearchCriteria;
-        protected readonly MsSqlDatabaseManager DatabaseManager;
-        protected Repository(MsSqlDatabaseManager databaseManager)
+
+        protected Repository(NHibernate.ISession session)
         {
-            DatabaseManager = databaseManager;
+            _session = session;
         }
 
         // Zapisuje instancję modelu do bazy danych.
         public virtual void Create(T modelInstance)
         {
-            _resourceToAdd = modelInstance;
-            RepositoryCommand cmd = _Create;
-            DatabaseManager.Execute(cmd);
-        }
-
-        private void _Create(NHibernate.ISession session)
-        {
-            session.Save(_resourceToAdd);
+            _session.Save(modelInstance);
         }
 
         // Znajdź rekordy i je zwróć.
         public virtual IList<T> Read(SearchCriteria<T> searchCriteria)
         {
-
-            SearchCriteria = searchCriteria;
-            UsersServer.RepositoryCommand cmd = _Read;
-            DatabaseManager.Execute(cmd);
-            return _resourcesFound;
-        }
-
-        private void _Read(NHibernate.ISession session)
-        {
-            var query = session.QueryOver<T>();
+            var query = _session.QueryOver<T>();
             SearchCriteria.ApplyToQuery(query);
-            _resourcesFound = query.List();
+            return query.List();
         }
 
         // Zaktualizuj instancję modelu na podstawie przekazanych właściwości.
         public void Update(T modelInstance, UpdatedProperties<T> updatedProperties)
         {
-            var resource = modelInstance;
-            updatedProperties.Set(resource);
-            _resourceToUpdate = resource;
-            UsersServer.RepositoryCommand cmd = _Update;
-            DatabaseManager.Execute(cmd);
+            throw new NotImplementedException();
+            //var resource = modelInstance;
+            //updatedProperties.Set(resource);
+            //_resourceToUpdate = resource;
+            //UsersServer.RepositoryCommand cmd = _Update;
+            //DatabaseManager.Execute(cmd);
         }
 
         private void _Update(NHibernate.ISession session)
@@ -69,14 +53,7 @@ namespace UsersServer
         // Usuń rekord.
         public void Delete(T modelInstance)
         {
-            _resourceToDelete = modelInstance;
-            UsersServer.RepositoryCommand cmd = _Delete;
-            DatabaseManager.Execute(cmd);
-        }
-
-        private void _Delete(NHibernate.ISession session)
-        {
-            session.Delete(_resourceToDelete);
+            _session.Delete(modelInstance);
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
+using UsersServer.Database;
 
 namespace UsersServer.Database
 {
     // Tworzy connection string dla bazy MSSQL.
-    public class MsSqlConnectionString
+    public class MsSqlConnectionString : IConnectionString
     {
         private readonly string _connectionStringBase = @"Integrated Security=true;"; // dla uproszczenia tylko integrated security
         private readonly string _serverInstance;
@@ -16,13 +17,12 @@ namespace UsersServer.Database
                 if (String.IsNullOrWhiteSpace(_serverInstance))
                     return null;
                 var connectionString = String.Copy(_connectionStringBase);
-                if (!String.IsNullOrWhiteSpace(_serverInstance))
-                    connectionString += $@"Server={_serverInstance};";
+                connectionString += $@"Server={_serverInstance};";
+
                 if (!String.IsNullOrWhiteSpace(_databaseName))
                     connectionString += $@"Database={_databaseName};";
                 return connectionString;
             }
-            private set => Value = value;
         }
 
         public MsSqlConnectionString(string serverInstance)

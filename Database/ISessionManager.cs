@@ -7,8 +7,9 @@ using NHibernate;
 
 namespace UsersServer.Database
 {
-    public interface IDatabaseManager
+    public interface ISessionManager
     {
-        IConnectionString Create(ISession session, string serverName, string dbName);
+        ISession OpenSession();
+        void CloseSession(ISession session);
     }
 }
