@@ -18,7 +18,7 @@ namespace UsersServer.User
         {
             if (user.Groups.Contains(group))
             {
-                throw new InvalidOperationException("User is already a group member");
+                throw new InvalidOperationException("User is already a group member.");
             }
             using (var tx = Session.BeginTransaction())
             {
@@ -31,6 +31,11 @@ namespace UsersServer.User
         // Usuń użytkownika z grupy.
         public void RemoveFromGroup(UserModel user, GroupModel group)
         {
+            if (!user.Groups.Contains(group))
+            {
+                throw new InvalidOperationException("User is not a member of the group.");
+            }
+
             using (var tx = Session.BeginTransaction())
             {
                 user.Groups.Remove(group);

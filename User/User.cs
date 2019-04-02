@@ -82,19 +82,23 @@ namespace UsersServer.User
 
         public static void AddToGroup(int userId, int groupId)
         {
-            var user = Read(userId).FirstOrDefault();
-            var group = Group.Group.Read(groupId).FirstOrDefault();
-
-            if (user == null)
-                throw new InvalidOperationException("User does not exist.");
-
-            if (group == null)
-                throw new InvalidOperationException("Group does not exist.");
-
             var session = Database.Session.OpenSession();
-            var repository = new UserRepository(session);
 
-            repository.AddToGroup(user, group);
+            var groupRepository = new GroupRepository(session);
+            var groupSearchProperties = new Dictionary<string, string>
+            {
+                { "GroupId", groupId.ToString() }
+            };
+            var group = groupRepository.Read(new GroupSearchCriteria(groupSearchProperties)).FirstOrDefault();
+
+            var userRepository = new UserRepository(session);
+            var userSearchProperties = new Dictionary<string, string>
+            {
+                {"UserId", userId.ToString()},
+            };
+            var user = userRepository.Read(new UserSearchCriteria(userSearchProperties)).FirstOrDefault();
+
+            userRepository.AddToGroup(user, group);
             Database.Session.CloseSession(session);
             Logger.Log("User added to group.");
         }
@@ -103,18 +107,22 @@ namespace UsersServer.User
         public static void RemoveFromGroup(int userId, int groupId)
         {
             var session = Database.Session.OpenSession();
-            var groupRepository = new GroupRepository(session);
 
+            var groupRepository = new GroupRepository(session);
             var groupSearchProperties = new Dictionary<string, string>
             {
                 { "GroupId", groupId.ToString() }
             };
             var group = groupRepository.Read(new GroupSearchCriteria(groupSearchProperties)).FirstOrDefault();
 
-            var user = Read(userId).FirstOrDefault();
-            var repository = new UserRepository(session);
+            var userRepository = new UserRepository(session);
+            var userSearchProperties = new Dictionary<string, string>
+            {
+                {"UserId", userId.ToString()},
+            };
+            var user = userRepository.Read(new UserSearchCriteria(userSearchProperties)).FirstOrDefault();
 
-            repository.RemoveFromGroup(user, group);
+            userRepository.RemoveFromGroup(user, group);
             Database.Session.CloseSession(session);
             Logger.Log("User removed from group.");
         }
