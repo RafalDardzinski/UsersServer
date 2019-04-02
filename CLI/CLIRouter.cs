@@ -15,7 +15,7 @@ namespace UsersServer.CLI
             {
                 CommandLine.Parser.Default.ParseArguments<DatabaseCreate>(args)
                     .MapResult(
-                        (DatabaseCreate o) =>
+                        o =>
                         {
                             CreateDb(o.ServerInstance, o.DatabaseName);
                             return 0;
@@ -113,8 +113,7 @@ namespace UsersServer.CLI
         private static void CreateDb(string serverInstance, string dbName)
         {
             // zaimportuj implementację bazy danych z DatabaseService
-            var db = DatabaseService.GetDatabase();
-            db.Connect(serverInstance);
+            var db = DatabaseService.GetDatabase(serverInstance);
             var session = db.Session.OpenSession();
             var connectionString = db.Manager.Create(session, serverInstance, dbName);
             db.Session.CloseSession(session);

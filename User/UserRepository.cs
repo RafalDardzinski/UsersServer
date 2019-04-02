@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using NHibernate;
 using UsersServer.Group;
 using UsersServer.Repository;
@@ -21,15 +20,23 @@ namespace UsersServer.User
             {
                 throw new InvalidOperationException("User is already a group member");
             }
-            user.Groups.Add(group);
-            Update(user);
+            using (var tx = Session.BeginTransaction())
+            {
+                user.Groups.Add(group);
+                Session.Update(user);
+                tx.Commit();
+            }
         }
 
         // Usuń użytkownika z grupy.
         public void RemoveFromGroup(UserModel user, GroupModel group)
         {
-            user.Groups.Remove(group);
-            Update(user);
+            using (var tx = Session.BeginTransaction())
+            {
+                user.Groups.Remove(group);
+                Session.Update(user);
+                tx.Commit();
+            }
         }
     }
 }

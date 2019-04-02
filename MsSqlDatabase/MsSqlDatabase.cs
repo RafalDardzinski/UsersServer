@@ -1,5 +1,4 @@
-﻿using NHibernate.Cfg;
-using UsersServer.Database;
+﻿using UsersServer.Database;
 
 namespace UsersServer.MsSqlDatabase
 {
@@ -17,12 +16,12 @@ namespace UsersServer.MsSqlDatabase
         public void Connect(string serverInstance)
         {
             var connectionString = new MsSqlConnectionString(serverInstance);
-            this.Connect(connectionString);
+            Connect(connectionString);
         }
 
         public void Connect()
         {
-            this.Connect(AppConfigManager.GetConnectionString());
+            Connect(AppConfigManager.GetConnectionString());
         }
 
         public MsSqlDatabase()

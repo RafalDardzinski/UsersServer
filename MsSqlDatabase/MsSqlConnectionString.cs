@@ -8,7 +8,7 @@ namespace UsersServer.Database
     public class MsSqlConnectionString : IConnectionString
     {
         private const string ConnectionStringBase = @"Integrated Security=true;"; // integrated security for simplicity
-        public string ServerInstance { get; }
+        public string ServerInstance { get; private set; }
         public string Database { get; }
 
         public string Value

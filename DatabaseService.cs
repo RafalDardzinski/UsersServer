@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UsersServer.Database;
+﻿using UsersServer.Database;
 
 namespace UsersServer
 {
@@ -13,6 +8,13 @@ namespace UsersServer
         {
             var db = new MsSqlDatabase.MsSqlDatabase();
             db.Connect();
+            return db;
+        }
+
+        public static IDatabase GetDatabase(string serverInstance)
+        {
+            var db = new MsSqlDatabase.MsSqlDatabase();
+            db.Connect(serverInstance);
             return db;
         }
     }
