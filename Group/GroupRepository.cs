@@ -1,5 +1,6 @@
 ﻿using NHibernate;
 using UsersServer.Database;
+using UsersServer.Repository;
 
 namespace UsersServer.Group
 {

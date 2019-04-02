@@ -1,14 +1,20 @@
-﻿using System;
-using NHibernate;
+﻿using NHibernate;
 
 using Configuration = NHibernate.Cfg.Configuration;
 
 namespace UsersServer.Database
 {
-    // Klasa kontrolująca sesję nHibernate.
+    /// <summary>
+    /// NHibernate session manager.
+    /// </summary>
     public class SessionManager : ISessionManager
     {
         private readonly ISessionFactory _sessionFactory;
+
+        /// <summary>
+        /// Creates a new session manager.
+        /// </summary>
+        /// <param name="configuration">NHibernate configuration.</param>
         public SessionManager(Configuration configuration)
         {
             _sessionFactory = configuration.BuildSessionFactory();

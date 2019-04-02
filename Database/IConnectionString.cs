@@ -8,6 +8,11 @@ namespace UsersServer.Database
 {
     public interface IConnectionString
     {
+        /// <summary>
+        /// Returns value of the connection string.
+        /// </summary>
         string Value { get; }
+        string ServerInstance { get; }
+        string Database { get; }
     }
 }

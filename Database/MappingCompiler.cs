@@ -5,12 +5,17 @@ using UsersServer.User;
 
 namespace UsersServer.Database
 {
+    /// <summary>
+    /// Compiles NHibernate mapping by code models.
+    /// </summary>
     class MappingCompiler
     {
-        // Kompiluje modele za pomocą mappera modeli nHibernate (mapping by code).
+        /// <summary>
+        /// Compiles models.
+        /// </summary>
+        /// <returns>Compiled models.</returns>
         public static HbmMapping CompileModels()
         {
-            // tutaj wolałbym przekazać listę klas, ale nie wiem jeszcze jak to poprawnie zrobić, dlatego koduję modele na sztywno
             var modelMapper = new ModelMapper();
             modelMapper.AddMapping<UserMapping>();
             modelMapper.AddMapping<GroupMapping>();

@@ -9,10 +9,10 @@ namespace UsersServer.Database
     public class MsSqlConfiguration : Configuration
     {
         // Tworzy konkretną konfigurację MSSQL dla nHibernate 
-        public MsSqlConfiguration(string connectionString, string mappingDocumentFileName = "default")
+        public MsSqlConfiguration(IConnectionString connectionString, string mappingDocumentFileName = "default")
         {
             var compiledModels = MappingCompiler.CompileModels();
-            SetDatabaseIntegration(connectionString);
+            SetDatabaseIntegration(connectionString.Value);
             this.AddDeserializedMapping(compiledModels, mappingDocumentFileName);
         }
         

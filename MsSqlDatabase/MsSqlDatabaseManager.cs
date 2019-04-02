@@ -12,7 +12,7 @@ namespace UsersServer.MsSqlDatabase
             command.CommandText = $@"create database [{dbName}]";
             command.ExecuteNonQuery();
             var connectionString = new MsSqlConnectionString(serverInstance, dbName);
-            var config = new MsSqlConfiguration(connectionString.Value);
+            var config = new MsSqlConfiguration(connectionString);
             new SchemaExport(config).Create(false, true);
             return connectionString;
         }

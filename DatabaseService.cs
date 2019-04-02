@@ -9,6 +9,11 @@ namespace UsersServer
 {
     public class DatabaseService
     {
-        public static IDatabase Db => new MsSqlDatabase.MsSqlDatabase();
+        public static IDatabase GetDatabase()
+        {
+            var db = new MsSqlDatabase.MsSqlDatabase();
+            db.Connect();
+            return db;
+        }
     }
 }

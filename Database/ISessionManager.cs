@@ -7,9 +7,21 @@ using NHibernate;
 
 namespace UsersServer.Database
 {
+    /// <summary>
+    /// Allows NHibernate session management.
+    /// </summary>
     public interface ISessionManager
     {
+        /// <summary>
+        /// Opens a new NHibernate session.
+        /// </summary>
+        /// <returns>NHibernate session.</returns>
         ISession OpenSession();
+
+        /// <summary>
+        /// Closes a NHibernate session.
+        /// </summary>
+        /// <param name="session">NHibernate session</param>
         void CloseSession(ISession session);
     }
 }

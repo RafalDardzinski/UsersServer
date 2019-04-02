@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using NHibernate;
-using UsersServer.Database;
 using UsersServer.Group;
+using UsersServer.Repository;
 
 namespace UsersServer.User
 {
@@ -15,45 +15,21 @@ namespace UsersServer.User
         }
 
         // Dodaj użytkownika do grupy. 
-        public void AddToGroup(int userId, int groupId)
+        public void AddToGroup(UserModel user, GroupModel group)
         {
-            var user = _session.QueryOver<UserModel>().Where(u => u.UserId == userId).List().FirstOrDefault();
-            if (user == null)
-                throw new InvalidOperationException($"User (UserId: {userId}) does not exist.");
-
-            var group = _session.QueryOver<GroupModel>().Where(g => g.GroupId == groupId).List().FirstOrDefault();
-            if (group == null)
-                throw new InvalidOperationException($"Group (GroupId: {groupId}) does not exist.");
-
-            // Zgłoś błąd jeśli użytkownik jest już przypisany do tej grupy.
             if (user.Groups.Contains(group))
             {
-                throw new InvalidOperationException($"User is already in a group: {group.Name}");
+                throw new InvalidOperationException("User is already a group member");
             }
             user.Groups.Add(group);
-            _session.Update(user);
+            Update(user);
         }
 
         // Usuń użytkownika z grupy.
-        public void RemoveFromGroup(int userId, int groupId)
+        public void RemoveFromGroup(UserModel user, GroupModel group)
         {
-
-            var user = _session.QueryOver<UserModel>().Where(u => u.UserId == userId).List().FirstOrDefault();
-            if (user == null)
-                throw new InvalidOperationException($"User (UserId: {userId}) does not exist.");
-
-            var group = _session.QueryOver<GroupModel>().Where(g => g.GroupId == groupId).List().FirstOrDefault();
-            if (group == null)
-                throw new InvalidOperationException($"Group (GroupId: {groupId}) does not exist.");
-
-            // Zgłoś błąd jeśli użytkownik nie jest przypisany do grupy z której próbujesz go usunąć.
-            if (!user.Groups.Contains(group))
-            {
-                throw new InvalidOperationException($"User is not in a group: {group.Name}");
-            }
-
             user.Groups.Remove(group);
-            _session.Update(user);
+            Update(user);
         }
     }
 }

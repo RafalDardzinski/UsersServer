@@ -10,7 +10,7 @@ namespace UsersServer.MsSqlDatabase
 
         public void Connect(IConnectionString connectionString)
         {
-            var configuration = new MsSqlConfiguration(connectionString.Value);
+            var configuration = new MsSqlConfiguration(connectionString);
             Session = new SessionManager(configuration);
         }
 

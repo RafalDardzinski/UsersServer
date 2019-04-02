@@ -1,39 +1,48 @@
 ﻿using System;
-using UsersServer.Database;
 
 namespace UsersServer.Database
 {
-    // Tworzy connection string dla bazy MSSQL.
+    /// <summary>
+    /// Creates connection string for MSSQL database.
+    /// </summary>
     public class MsSqlConnectionString : IConnectionString
     {
-        private readonly string _connectionStringBase = @"Integrated Security=true;"; // dla uproszczenia tylko integrated security
-        private readonly string _serverInstance;
-        private readonly string _databaseName;
+        private const string ConnectionStringBase = @"Integrated Security=true;"; // integrated security for simplicity
+        public string ServerInstance { get; }
+        public string Database { get; }
 
         public string Value
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(_serverInstance))
+                if (String.IsNullOrWhiteSpace(ServerInstance))
                     return null;
-                var connectionString = String.Copy(_connectionStringBase);
-                connectionString += $@"Server={_serverInstance};";
-
-                if (!String.IsNullOrWhiteSpace(_databaseName))
-                    connectionString += $@"Database={_databaseName};";
+                var connectionString = String.Copy(ConnectionStringBase);
+                connectionString += $@"Server={ServerInstance};";
+                if (!String.IsNullOrWhiteSpace(Database))
+                    connectionString += $@"Database={Database};";
                 return connectionString;
             }
         }
 
+        /// <summary>
+        /// Creates connection string to a server.
+        /// </summary>
+        /// <param name="serverInstance">server\instance to connect to <example>localhost\SQLEXPRESS</example></param>
         public MsSqlConnectionString(string serverInstance)
         {
-            _serverInstance = serverInstance;
+            ServerInstance = serverInstance;
         }
 
+        /// <summary>
+        /// Creates connection string to a server.
+        /// </summary>
+        /// <param name="serverInstance">server\instance to connect to <example>localhost\SQLEXPRESS</example></param>
+        /// <param name="databaseName">Database to connect to.</param>
         public MsSqlConnectionString(string serverInstance, string databaseName)
             : this(serverInstance)
         {
-            _databaseName = databaseName;
+            Database = databaseName;
         }
     }
 }

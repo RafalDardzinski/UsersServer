@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using UsersServer.Database;
+using UsersServer.Group;
+using UsersServer.Repository;
 
 namespace UsersServer.User
 {
     // Serwis udostępniający funkcjonalności dla Użytkownika. Jest bezpośrednim łącznikiem pomiędzy Repozytorium a CLI.
     public class User
     {
-        private static readonly IDatabase Database = DatabaseService.Db;
-
+        private static readonly IDatabase Database = DatabaseService.GetDatabase();
 
         // Tworzy użytkownika.
         public static void Create(string firstname, string lastname, string username, string password)
         {
-            Database.Connect();
+            var session = Database.Session.OpenSession();
+            var repository = new UserRepository(session);
 
             var user = new UserModel
             {
@@ -24,123 +26,144 @@ namespace UsersServer.User
                 Username = username,
                 Password = password
             };
-
-
-            var repository = new UserRepository(Database.Session.OpenSession());
-
             repository.Create(user);
+
+            Database.Session.CloseSession(session);
             Logger.Log("User created.");
         }
 
-        // Zwraca listę użytkowników na podstawie przekazanych kryteriów.
-        //public static IList<UserModel> Read(int id = 0, string firstname = null, string lastname = null, string username = null)
-        //{
-        //    var searchProperties = new Dictionary<string, string>
-        //    {
-        //        {"UserId", id.ToString()},
-        //        {"FirstName", firstname },
-        //        {"LastName", lastname },
-        //        {"Username", username }
+        //Zwraca listę użytkowników na podstawie przekazanych kryteriów.
+        public static IList<UserModel> Read(int id = 0, string firstname = null, string lastname = null, string username = null)
+        {
+            var session = Database.Session.OpenSession();
+            var repository = new UserRepository(session);
 
-        //    };
+            var searchProperties = new Dictionary<string, string>
+            {
+                {"UserId", id.ToString()},
+                {"FirstName", firstname },
+                {"LastName", lastname },
+                {"Username", username }
 
-        //    var searchCriteria = new UserSearchCriteria(searchProperties);
-        //    return Repository.Read(searchCriteria);
-        //}
+            };
 
-        //// Znajduje użytkownika (po id) i aktualizuje jego pola na podstawie przekanych argumentów.
-        //public static void Update(int id, string newFirstName = null, string newLastName = null, string newUsername = null, string newPassword = null)
-        //{
-        //    var user = Read(id).FirstOrDefault();
-        //    if (user == null)
-        //        throw new InvalidOperationException("User not found.");
+            var searchCriteria = new UserSearchCriteria(searchProperties);
 
-        //    var newProperties = new Dictionary<string, dynamic>
-        //    {
-        //        {"FirstName", newFirstName},
-        //        {"LastName", newLastName},
-        //        {"Username", newUsername},
-        //        {"Password", newPassword}
-        //    };
+            var foundUsers = repository.Read(searchCriteria);
+            Database.Session.CloseSession(session);
+            return foundUsers;
+        }
 
-        //    var updatedProperties = new UserUpdatedProperties(newProperties);
+        // Znajduje użytkownika (po id) i aktualizuje jego pola na podstawie przekanych argumentów.
+        public static void Update(int id, string newFirstName = null, string newLastName = null, string newUsername = null, string newPassword = null)
+        {
+            var session = Database.Session.OpenSession();
+            var repository = new UserRepository(session);
 
-        //    Repository.Update(user, updatedProperties);
-        //    Logger.Log("User updated.");
-        //}
+            var searchProperties = new Dictionary<string, string>
+            {
+                {"UserId", id.ToString()},
+            };
 
-        //// Dodaje użytkownika do grupy.
-        //public static void AddToGroup(int userId, int groupId)
-        //{
-        //    Repository.AddToGroup(userId, groupId);
-        //    Logger.Log("User added to group.");
-        //}
+            var user = repository.Read(new UserSearchCriteria(searchProperties)).FirstOrDefault();
+            if (user == null)
+                throw new InvalidOperationException("User not found.");
 
-        //// Usuwa użytkownika z grupy.
-        //public static void RemoveFromGroup(int userId, int groupId)
-        //{
-        //    Repository.RemoveFromGroup(userId, groupId);
-        //    Logger.Log("User removed from group.");
-        //}
+            user.FirstName = newFirstName ?? user.FirstName;
+            user.LastName = newLastName ?? user.LastName;
+            user.Username = newUsername ?? user.Username;
+            user.Password = newPassword ?? user.Password;
 
-        //// Znajduje użytkownika (po id) i usuwa go.
-        //public static void Delete(int id)
-        //{
-        //    var user = Read(id).FirstOrDefault();
-        //    if (user == null)
-        //        throw new InvalidOperationException("User not found.");
-        //    Repository.Delete(user);
-        //    Logger.Log("User removed.");
-        //}
+            repository.Update(user);
+            Database.Session.CloseSession(session);
 
-        //internal class UserSearchCriteria : SearchCriteria<UserModel>
-        //{
-        //    public UserSearchCriteria(Dictionary<string, string> filterProperties) : base(filterProperties)
-        //    {
-        //    }
+            Logger.Log("User updated.");
+        }
 
-        //    // Implementacja właściwa dla modelu Użytkownika.
-        //    public override void ApplyToQuery(IQueryOver<UserModel, UserModel> query)
-        //    {
-        //        _filterProperties.TryGetValue("UserId", out var idValue);
-        //        _filterProperties.TryGetValue("Username", out var username);
-        //        _filterProperties.TryGetValue("FirstName", out var firstName);
-        //        _filterProperties.TryGetValue("LastName", out var lastName);
+        public static void AddToGroup(int userId, int groupId)
+        {
+            var user = Read(userId).FirstOrDefault();
+            var group = Group.Group.Read(groupId).FirstOrDefault();
 
-        //        if (int.Parse(idValue) > 0)
-        //            query.Where(u => u.UserId == int.Parse(idValue));
-        //        if (!String.IsNullOrEmpty(username))
-        //            query.Where(u => u.Username == username);
-        //        if (!String.IsNullOrEmpty(firstName))
-        //            query.Where(u => u.FirstName == firstName);
-        //        if (!String.IsNullOrEmpty(lastName))
-        //            query.Where(u => u.LastName == lastName);
-        //    }
-        //}
+            if (user == null)
+                throw new InvalidOperationException("User does not exist.");
 
-        //internal class UserUpdatedProperties : UpdatedProperties<UserModel>
-        //{
-        //    public UserUpdatedProperties(Dictionary<string, dynamic> properties) : base(properties)
-        //    {
-        //    }
+            if (group == null)
+                throw new InvalidOperationException("Group does not exist.");
 
-        //    public override UserModel Set(UserModel user)
-        //    {
-        //        _properties.TryGetValue("Username", out var username);
-        //        _properties.TryGetValue("FirstName", out var firstName);
-        //        _properties.TryGetValue("LastName", out var lastName);
-        //        _properties.TryGetValue("Password", out var password);
+            var session = Database.Session.OpenSession();
+            var repository = new UserRepository(session);
 
-        //        // Jeśli właściwość nie jest zdefiniowana, nie zmieniaj jej.
-        //        user.Username = username ?? user.Username;
-        //        user.FirstName = firstName ?? user.FirstName;
-        //        user.LastName = lastName ?? user.LastName;
-        //        user.Password = password ?? user.Password;
+            repository.AddToGroup(user, group);
+            Database.Session.CloseSession(session);
+            Logger.Log("User added to group.");
+        }
 
-        //        return user;
-        //    }
-        //}
+        // Usuwa użytkownika z grupy.
+        public static void RemoveFromGroup(int userId, int groupId)
+        {
+            var session = Database.Session.OpenSession();
+            var groupRepository = new GroupRepository(session);
 
+            var groupSearchProperties = new Dictionary<string, string>
+            {
+                { "GroupId", groupId.ToString() }
+            };
+            var group = groupRepository.Read(new GroupSearchCriteria(groupSearchProperties)).FirstOrDefault();
+
+            var user = Read(userId).FirstOrDefault();
+            var repository = new UserRepository(session);
+
+            repository.RemoveFromGroup(user, group);
+            Database.Session.CloseSession(session);
+            Logger.Log("User removed from group.");
+        }
+
+        // Znajduje użytkownika (po id) i usuwa go.
+        public static void Delete(int id)
+        {
+            var session = Database.Session.OpenSession();
+            var repository = new UserRepository(session);
+
+            var searchProperties = new Dictionary<string, string>
+            {
+                {"UserId", id.ToString()},
+            };
+
+            var user = repository.Read(new UserSearchCriteria(searchProperties)).FirstOrDefault();
+
+            if (user == null)
+                throw new InvalidOperationException("User not found.");
+
+            repository.Delete(user);
+            Database.Session.CloseSession(session);
+            Logger.Log("User removed.");
+        }
+
+        internal class UserSearchCriteria : SearchCriteria<UserModel>
+        {
+            public UserSearchCriteria(Dictionary<string, string> filterProperties) : base(filterProperties)
+            {
+            }
+
+            // Implementacja właściwa dla modelu Użytkownika.
+            public override void ApplyToQuery(IQueryOver<UserModel, UserModel> query)
+            {
+            FilterProperties.TryGetValue("UserId", out var idValue);
+            FilterProperties.TryGetValue("Username", out var username);
+            FilterProperties.TryGetValue("FirstName", out var firstName);
+            FilterProperties.TryGetValue("LastName", out var lastName);
+
+            if (int.Parse(idValue) > 0)
+                query.Where(u => u.UserId == int.Parse(idValue));
+            if (!String.IsNullOrEmpty(username))
+                query.Where(u => u.Username == username);
+            if (!String.IsNullOrEmpty(firstName))
+                query.Where(u => u.FirstName == firstName);
+            if (!String.IsNullOrEmpty(lastName))
+                query.Where(u => u.LastName == lastName);
+            }
+        }
+ 
     }
-
 }
