@@ -13,8 +13,13 @@ namespace UsersServer.Repository
             Session = session;
         }
 
-        // Zapisuje instancję modelu do bazy danych.
-        public virtual void Create(T modelInstance)
+	    public virtual T Get(object key)
+	    {
+		    return Session.Get<T>(key);
+	    }
+
+		// Zapisuje instancję modelu do bazy danych.
+		public virtual void Create(T modelInstance)
         {
             Session.Save(modelInstance);
         }
@@ -30,6 +35,7 @@ namespace UsersServer.Repository
         // Zaktualizuj instancję modelu na podstawie przekazanych właściwości.
         public void Update(T updatedModelInstance)
         {
+			// review: transaction should be spanned by business logic
             using (var tx = Session.BeginTransaction())
             {
                 Session.Update(updatedModelInstance);

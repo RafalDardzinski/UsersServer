@@ -51,38 +51,38 @@ namespace UsersServer.CLI
                     },
                     (UserCreate u) =>
                     {
-                        User.User.Create(u.FirstName, u.LastName, u.Username, u.Password);
+                        User.UserManager.Create(u.FirstName, u.LastName, u.Username, u.Password);
                         return 0;
                     },
                     (UserRead c) =>
                     {
-                        var users = User.User.Read(c.Id, c.FirstName, c.LastName, c.Username);
+                        var users = User.UserManager.Read(c.Id, c.FirstName, c.LastName, c.Username);
                         DataDisplayer.Display(users);
                         return 0;
                     },
                     (UserUpdate u) =>
                     {
-                        User.User.Update(u.Id, u.FirstName, u.LastName, u.Username);
+                        User.UserManager.Update(u.Id, u.FirstName, u.LastName, u.Username);
                         return 0;
                     },
                     (UserAddToGroup p) =>
                     {
-                        User.User.AddToGroup(p.UserId, p.GroupId);
+                        User.UserManager.AddToGroup(p.UserId, p.GroupId);
                         return 0;
                     },
                     (UserRemoveFromGroup p) =>
                     {
-                        User.User.RemoveFromGroup(p.UserId, p.GroupId);
+                        User.UserManager.RemoveFromGroup(p.UserId, p.GroupId);
                         return 0;
                     },
                     (UserPasswordUpdate u) =>
                     {
-                        User.User.Update(u.Id, newPassword: u.Password);
+                        User.UserManager.Update(u.Id, newPassword: u.Password);
                         return 0;
                     },
                     (UserDelete u) =>
                     {
-                        User.User.Delete(u.Id);
+                        User.UserManager.Delete(u.Id);
                         return 0;
                     },
                     (GroupCreate g) =>

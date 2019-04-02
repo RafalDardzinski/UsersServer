@@ -18,6 +18,7 @@ namespace UsersServer.Database
         /// <returns>NHibernate session.</returns>
         ISession OpenSession();
 
+		// Review: this method doesn't give us any added value
         /// <summary>
         /// Closes a NHibernate session.
         /// </summary>

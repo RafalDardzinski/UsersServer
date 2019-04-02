@@ -8,7 +8,50 @@ using UsersServer.Repository;
 
 namespace UsersServer.User
 {
-    // Serwis udostępniający funkcjonalności dla Użytkownika. Jest bezpośrednim łącznikiem pomiędzy Repozytorium a CLI.
+	public interface IUserManager
+	{
+		void Create(string firstname, string lastname, string username, string password);
+	}
+
+	public class UserManager : IUserManager
+	{
+		private readonly ISession _session;
+		private readonly IRepository<UserModel> _repository;
+
+		public UserManager(ISession session, IRepository<UserModel> repository)
+		{
+			_session = session;
+			_repository = repository;
+		}
+
+		public void Create(string firstname, string lastname, string username, string password)
+		{
+			using (var tx = _session.BeginTransaction())
+			{
+				var user = new UserModel
+				{
+					FirstName = firstname,
+					LastName = lastname,
+					Username = username,
+					Password = password
+				};
+				_repository.Create(user);
+
+				var user2 = new UserModel
+				{
+					FirstName = firstname + "2",
+					LastName = lastname,
+					Username = username,
+					Password = password
+				};
+				_repository.Create(user2);
+
+				tx.Commit();
+			}
+		}
+	}
+
+	// Serwis udostępniający funkcjonalności dla Użytkownika. Jest bezpośrednim łącznikiem pomiędzy Repozytorium a CLI.
     public class User
     {
         private static readonly IDatabase Database = DatabaseService.GetDatabase();

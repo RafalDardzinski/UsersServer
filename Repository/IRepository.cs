@@ -2,8 +2,10 @@
 
 namespace UsersServer.Repository
 {
-    interface IRepository<T> where T : class
+	public interface IRepository<T> where T : class
     {
+	    T Get(object key);
+
         void Create(T modelInstance);
         IList<T> Read(ISearchCriteria<T> searchCriteria);
         void Update(T updatedModelInstance);

@@ -20,6 +20,7 @@ namespace UsersServer.Database
         /// Database Manager.
         /// </summary>
         IDatabaseManager Manager { get; }
+
         void Connect(string connectionString);
         void Connect(IConnectionString connectionString);
         void Connect();
