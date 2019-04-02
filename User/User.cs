@@ -8,12 +8,7 @@ using UsersServer.Repository;
 
 namespace UsersServer.User
 {
-	public interface IUserManager
-	{
-		void Create(string firstname, string lastname, string username, string password);
-	}
-
-	public class UserManager : IUserManager
+	public class User : IUserManager
 	{
 		private readonly ISession _session;
 		private readonly IRepository<UserModel> _repository;
@@ -215,6 +210,5 @@ namespace UsersServer.User
                 query.Where(u => u.LastName == lastName);
             }
         }
- 
     }
 }

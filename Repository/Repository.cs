@@ -13,7 +13,7 @@ namespace UsersServer.Repository
             Session = session;
         }
 
-	    public virtual T Get(object key)
+	    public virtual T FindById(object key)
 	    {
 		    return Session.Get<T>(key);
 	    }

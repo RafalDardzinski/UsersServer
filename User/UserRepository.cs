@@ -5,12 +5,12 @@ using UsersServer.Repository;
 
 namespace UsersServer.User
 {
-	interface IUserRepository : IRepository<UserModel>
-	{
-		void AddToGroup(UserModel user, GroupModel group);
+	//interface IUserRepository : IRepository<UserModel>
+	//{
+	//	void AddToGroup(UserModel user, GroupModel group);
 
-		void RemoveFromGroup(UserModel user, GroupModel group);
-	}
+	//	void RemoveFromGroup(UserModel user, GroupModel group);
+	//}
 
     // Repozytorium dla użytkowników wykorzystuje standardowe metody Repozytorium ale też zawiera własne.
     class UserRepository : Repository<UserModel>, IUserRepository
