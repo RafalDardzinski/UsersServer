@@ -13,7 +13,7 @@ namespace UsersServer.Database
         {
             var compiledModels = MappingCompiler.CompileModels();
             SetDatabaseIntegration(connectionString.Value);
-            this.AddDeserializedMapping(compiledModels, mappingDocumentFileName);
+            AddDeserializedMapping(compiledModels, mappingDocumentFileName);
         }
         
         // Ustawia integrację z bazą danych MSSQL na podstawie connection string.

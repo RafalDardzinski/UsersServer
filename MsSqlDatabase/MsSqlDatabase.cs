@@ -1,4 +1,5 @@
-﻿using UsersServer.Database;
+﻿using UsersServer.AppConfig;
+using UsersServer.Database;
 
 namespace UsersServer.MsSqlDatabase
 {
@@ -19,9 +20,10 @@ namespace UsersServer.MsSqlDatabase
             Connect(connectionString);
         }
 
-        public void Connect()
+        public void Connect(IConfigManager configManager)
         {
-            Connect(AppConfigManager.GetConnectionString());
+            var storedInConfig = configManager.GetConnectionString();
+            Connect(new MsSqlConnectionString(storedInConfig.ServerInstance, storedInConfig.Database));
         }
 
         public MsSqlDatabase()

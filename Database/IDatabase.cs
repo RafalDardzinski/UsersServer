@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UsersServer.AppConfig;
 
 namespace UsersServer.Database
 {
@@ -21,8 +22,23 @@ namespace UsersServer.Database
         /// </summary>
         IDatabaseManager Manager { get; }
 
-        void Connect(string connectionString);
+        /// <summary>
+        /// Connects to the database and establishes SessionManager.
+        /// </summary>
+        /// <param name="serverInstance">server\instance to connect to <example>localhost\SQLEXPRESS</example></param>
+        void Connect(string serverInstance);
+
+        /// <summary>
+        /// Connects to the database and establishes SessionManager using IConnectionString.
+        /// </summary>
+        /// <param name="connectionString">Connection string to the database.</param>
         void Connect(IConnectionString connectionString);
-        void Connect();
+
+        /// <summary>
+        /// Connects to the database using connection string stored in app configuration.
+        /// </summary>
+        /// <param name="configManager">Allows retrieving values from app configuration.</param>
+        void Connect(IConfigManager configManager);
+
     }
 }

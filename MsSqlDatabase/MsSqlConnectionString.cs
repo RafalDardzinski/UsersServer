@@ -5,11 +5,17 @@ namespace UsersServer.Database
     /// <summary>
     /// Creates connection string for MSSQL database.
     /// </summary>
-    public class MsSqlConnectionString : IConnectionString
+    public class MsSqlConnectionString : ConnectionStringData, IConnectionString
     {
         private const string ConnectionStringBase = @"Integrated Security=true;"; // integrated security for simplicity
-        public string ServerInstance { get; private set; }
-        public string Database { get; }
+
+        public MsSqlConnectionString(string serverInstance) : base(serverInstance)
+        {
+        }
+
+        public MsSqlConnectionString(string serverInstance, string database) : base(serverInstance, database)
+        {
+        }
 
         public string Value
         {
@@ -23,26 +29,6 @@ namespace UsersServer.Database
                     connectionString += $@"Database={Database};";
                 return connectionString;
             }
-        }
-
-        /// <summary>
-        /// Creates connection string to a server.
-        /// </summary>
-        /// <param name="serverInstance">server\instance to connect to <example>localhost\SQLEXPRESS</example></param>
-        public MsSqlConnectionString(string serverInstance)
-        {
-            ServerInstance = serverInstance;
-        }
-
-        /// <summary>
-        /// Creates connection string to a server.
-        /// </summary>
-        /// <param name="serverInstance">server\instance to connect to <example>localhost\SQLEXPRESS</example></param>
-        /// <param name="databaseName">Database to connect to.</param>
-        public MsSqlConnectionString(string serverInstance, string databaseName)
-            : this(serverInstance)
-        {
-            Database = databaseName;
         }
     }
 }
