@@ -1,5 +1,6 @@
 ﻿using System;
 using UsersServer.CLI;
+using UsersServer.Factory;
 
 namespace UsersServer
 {
@@ -7,14 +8,18 @@ namespace UsersServer
     {
         static void Main(string[] args)
         {
+            var coreFactory = new CoreFactory();
+            var router = coreFactory.CreateRouter();
+            var errorHandler = coreFactory.CreateErrorHandler();
+
             try
             {
-                CLIRouter.Route(args);
+                router.Route(args);
             }
             catch (Exception e)
             {
                 // Delegowanie błędów do klasy je obsługującej
-                ErrorHandler.ErrorHandler.Handle(e);
+                errorHandler.Handle(e);
             }
         }
 

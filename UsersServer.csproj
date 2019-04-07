@@ -79,7 +79,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CLI\CLIRouter.cs" />
+    <Compile Include="AppConfig\IConfigManager.cs" />
+    <Compile Include="CLI\Router.cs" />
+    <Compile Include="CLI\FullRouter.cs" />
+    <Compile Include="CLI\ICommandLineRouter.cs" />
+    <Compile Include="CLI\LimitedRouter.cs" />
     <Compile Include="CLI\Options\DatabaseCreate.cs" />
     <Compile Include="CLI\Options\GroupCreate.cs" />
     <Compile Include="CLI\Options\GroupDelete.cs" />
@@ -92,23 +96,30 @@
     <Compile Include="CLI\Options\UserRead.cs" />
     <Compile Include="CLI\Options\UserRemoveFromGroup.cs" />
     <Compile Include="CLI\Options\UserUpdate.cs" />
-    <Compile Include="DatabaseService.cs" />
+    <Compile Include="Database\ConnectionStringData.cs" />
     <Compile Include="Database\MappingCompiler.cs" />
+    <Compile Include="ErrorHandler\IErrorHandler.cs" />
+    <Compile Include="Factory\CoreFactory.cs" />
+    <Compile Include="Factory\ICoreFactory.cs" />
+    <Compile Include="Factory\IServiceFactory.cs" />
+    <Compile Include="Factory\ServiceFactory.cs" />
+    <Compile Include="Group\GroupService.cs" />
+    <Compile Include="Group\IGroupRepository.cs" />
+    <Compile Include="Group\IGroupService.cs" />
+    <Compile Include="Logger\ILogger.cs" />
     <Compile Include="MsSqlDatabase\MsSqlConfiguration.cs" />
     <Compile Include="MsSqlDatabase\MsSqlConnectionString.cs" />
     <Compile Include="Database\SessionManager.cs" />
-    <Compile Include="DataDisplayer.cs" />
     <Compile Include="Database\IConnectionString.cs" />
     <Compile Include="Database\IDatabaseManager.cs" />
     <Compile Include="Database\IDatabase.cs" />
     <Compile Include="Database\ISessionManager.cs" />
     <Compile Include="ErrorHandler\ErrorHandler.cs" />
-    <Compile Include="Group\Group.cs" />
     <Compile Include="Group\GroupMapping.cs" />
     <Compile Include="Group\GroupModel.cs" />
     <Compile Include="Group\GroupRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Logger.cs" />
+    <Compile Include="Logger\ConsoleLogger.cs" />
     <Compile Include="MsSqlDatabase\MsSqlDatabaseManager.cs" />
     <Compile Include="MsSqlDatabase\MsSqlDatabase.cs" />
     <Compile Include="Program.cs" />
@@ -116,11 +127,13 @@
     <Compile Include="Repository\ISearchCriteria.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Repository\SearchCriteria.cs" />
-    <Compile Include="User\User.cs" />
+    <Compile Include="User\IUserService.cs" />
+    <Compile Include="User\IUserRepository.cs" />
+    <Compile Include="User\UserService.cs" />
     <Compile Include="User\UserMapping.cs" />
     <Compile Include="User\UserModel.cs" />
     <Compile Include="User\UserRepository.cs" />
-    <Compile Include="AppConfigManager.cs" />
+    <Compile Include="AppConfig\LocalConfigManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -138,6 +151,5 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
