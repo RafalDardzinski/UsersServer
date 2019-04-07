@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using UsersServer.Group;
 
 namespace UsersServer.User
 {
-    public interface IUserManager
+    public interface IUserService
     {
         void Create(string firstname, string lastname, string username, string password);
 
@@ -10,9 +11,9 @@ namespace UsersServer.User
 
         void Update(int id, string newFirstName = null, string newLastName = null, string newUsername = null, string newPassword = null);
 
-        void AddToGroup(int userId, int groupId);
+        void AddToGroup(int userId, GroupModel group);
 
-        void RemoveFromGroup(int userId, int groupId);
+        void RemoveFromGroup(int userId, GroupModel group);
 
         void Delete(int id);
     }

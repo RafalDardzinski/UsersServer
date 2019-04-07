@@ -7,7 +7,8 @@ using UsersServer.Repository;
 
 namespace UsersServer.User
 {
-    interface IUserRepository : IRepository<UserModel>
+    public interface IUserRepository : IRepository<UserModel>
     {
+
     }
 }
