@@ -11,10 +11,10 @@ namespace UsersServer.User
         private readonly ISession _session;
         private readonly IUserRepository _repository;
 
-        public UserService(ISession session)
+        public UserService(ISession session, IUserRepository userRepository)
         {
             _session = session;
-            _repository = new UserRepository(session);
+            _repository = userRepository;
         }
 
         public void Create(string firstname, string lastname, string username, string password)

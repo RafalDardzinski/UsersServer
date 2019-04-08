@@ -2,7 +2,7 @@
 
 namespace UsersServer.Group
 {
-    interface IGroupRepository : IRepository<GroupModel>
+    public interface IGroupRepository : IRepository<GroupModel>
     {
     }
 }

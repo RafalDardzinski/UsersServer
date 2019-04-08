@@ -10,10 +10,10 @@ namespace UsersServer.Group
         private readonly ISession _session;
         private readonly IGroupRepository _repository;
 
-        public GroupService(ISession session)
+        public GroupService(ISession session, IGroupRepository groupRepository)
         {
             _session = session;
-            _repository = new GroupRepository(session);
+            _repository = groupRepository;
         }
 
         public void Create(string name)
