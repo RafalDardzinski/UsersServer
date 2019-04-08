@@ -1,6 +1,4 @@
-﻿using System;
-using NHibernate;
-using UsersServer.Group;
+﻿using NHibernate;
 using UsersServer.Repository;
 
 namespace UsersServer.User

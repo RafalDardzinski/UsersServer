@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// user-delete
+    /// </summary>
     [Verb("user-delete", HelpText = "Delete a user.")]
     public class UserDelete
     {

@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// user-password-update
+    /// </summary>
     [Verb("user-password-update", HelpText = "Change user's password.")]
     public class UserPasswordUpdate
     {

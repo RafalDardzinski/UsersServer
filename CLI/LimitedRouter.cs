@@ -6,9 +6,11 @@ using UsersServer.Logger;
 
 namespace UsersServer.CLI
 {
-    class LimitedRouter : Router, ICommandLineRouter
+    /// <summary>
+    /// Provides access to limited number of application's functionalities.
+    /// </summary>
+    class LimitedRouter : Router
     {
-
         public LimitedRouter(ILogger logger, IDatabase database, IConfigManager configManager) : base(logger, database, configManager)
         {
         }

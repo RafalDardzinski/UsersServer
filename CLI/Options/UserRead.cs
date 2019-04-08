@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// user-read
+    /// </summary>
     [Verb("user-read", HelpText = "Search for user(s) in the database. Not passing any arguments will result in displaying all the users.")]
     public class UserRead
     {

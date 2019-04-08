@@ -1,10 +1,6 @@
 ﻿using NHibernate;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UsersServer.Logger;
 using UsersServer.Repository;
 
 namespace UsersServer.Group
@@ -12,7 +8,6 @@ namespace UsersServer.Group
     public class GroupService : IGroupService
     {
         private readonly ISession _session;
-        private readonly ILogger _logger;
         private readonly IGroupRepository _repository;
 
         public GroupService(ISession session)
@@ -23,15 +18,23 @@ namespace UsersServer.Group
 
         public void Create(string name)
         {
-            var group = new GroupModel
-            {
-                Name = name
-            };
-
             using (var tx = _session.BeginTransaction())
             {
-                _repository.Create(group);
-                tx.Commit();
+                try
+                {
+                    var group = new GroupModel
+                    {
+                        Name = name
+                    };
+
+                    _repository.Create(group);
+                    tx.Commit();
+                }
+                catch (Exception e)
+                {
+                    tx.Rollback();
+                    throw e;
+                }
             }
         }
 
@@ -46,23 +49,42 @@ namespace UsersServer.Group
 
         public void Update(int id, string newName)
         {
-            var group = _repository.FindById(id);
-            group.Name = newName ?? group.Name;
-
             using (var tx = _session.BeginTransaction())
             {
-                _repository.Update(group);
-                tx.Commit();
+                try
+                {
+                    var group = _repository.FindById(id);
+                    if (group == null)
+                        throw new InvalidOperationException($"Could not find a group with ID: {id}");
+                    group.Name = newName ?? group.Name;
+                    _repository.Update(group);
+                    tx.Commit();
+                }
+                catch (Exception e)
+                {
+                    tx.Rollback();
+                    throw e;
+                }
             }
         }
 
         public void Delete(int id)
         {
-            var group = _repository.FindById(id);
             using (var tx = _session.BeginTransaction())
             {
-                _repository.Delete(group);
-                tx.Commit();
+                try
+                {
+                    var group = _repository.FindById(id);
+                    if (group == null)
+                        throw new InvalidOperationException($"Could not find a group with ID: {id}");
+                    _repository.Delete(group);
+                    tx.Commit();
+                }
+                catch (Exception e)
+                {
+                    tx.Rollback();
+                    throw e;
+                }
             }
         }
 
@@ -84,7 +106,6 @@ namespace UsersServer.Group
                 query.Where(g => g.GroupId == int.Parse(idValue));
             if (!String.IsNullOrEmpty(name))
                 query.Where(g => g.Name == name);
-
         }
     }
 }

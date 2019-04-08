@@ -65,6 +65,8 @@ namespace UsersServer.User
                 try
                 {
                     var user = _repository.FindById(id);
+                    if(user == null)
+                        throw new InvalidOperationException($"Could not find a user with ID: {id}");
                     user.FirstName = newFirstName ?? user.FirstName;
                     user.LastName = newLastName ?? user.LastName;
                     user.Username = newUsername ?? user.Username;
@@ -88,6 +90,8 @@ namespace UsersServer.User
                 try
                 {
                     var user = _repository.FindById(userId);
+                    if (user == null)
+                        throw new InvalidOperationException($"Could not find a user with ID: {userId}");
                     if (user.Groups.Contains(group)) throw new InvalidOperationException($"User is already a part of the group: {group.Name}");
                     user.Groups.Add(group);
                     tx.Commit();
@@ -107,6 +111,8 @@ namespace UsersServer.User
                 try
                 {
                     var user = _repository.FindById(userId);
+                    if (user == null)
+                        throw new InvalidOperationException($"Could not find a user with ID: {userId}");
                     if (!user.Groups.Contains(group)) throw new InvalidOperationException($"User is not a part of the group: {group.Name}");
                     user.Groups.Remove(group);
                     tx.Commit();
@@ -126,6 +132,8 @@ namespace UsersServer.User
                 try
                 {
                     var user = _repository.FindById(id);
+                    if (user == null)
+                        throw new InvalidOperationException($"Could not find an user with ID: {id}");
                     _repository.Delete(user);
                     tx.Commit();
                 }

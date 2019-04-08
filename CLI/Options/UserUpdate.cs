@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// user-update
+    /// </summary>
     [Verb("user-update", HelpText = "Search user by Id and update his/her data.")]
     public class UserUpdate
     {

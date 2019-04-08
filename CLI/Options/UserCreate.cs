@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// user-create
+    /// </summary>
     [Verb("user-create", HelpText = "Adds user to a database")]
     public class UserCreate
     {

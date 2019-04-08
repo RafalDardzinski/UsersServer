@@ -20,14 +20,13 @@ namespace UsersServer.Database
             _sessionFactory = configuration.BuildSessionFactory();
         }
 
+        /// <summary>
+        /// Opens a new session.
+        /// </summary>
+        /// <returns>NHibernate database session.</returns>
         public ISession OpenSession()
         {
             return _sessionFactory.OpenSession();
-        }
-
-        public void CloseSession(ISession session)
-        {
-            session.Close();
         }
     }
 }

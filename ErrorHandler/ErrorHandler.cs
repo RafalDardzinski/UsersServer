@@ -3,7 +3,9 @@ using UsersServer.Logger;
 
 namespace UsersServer.ErrorHandler
 {
-    // Docelowa obsługa wyjątków na podstawie ich typów. Póki co prosta implementacja usuwająca stack trace jeśli aplikacja nie jest uruchomiona w trybie DEBUG. 
+    /// <summary>
+    /// Global application Errorhandler
+    /// </summary>
     class ErrorHandler : IErrorHandler
     {
         private readonly ILogger Logger;
@@ -13,6 +15,10 @@ namespace UsersServer.ErrorHandler
             Logger = logger;
         }
 
+        /// <summary>
+        /// Handles exceptions based on the mode the application is compiled in.
+        /// </summary>
+        /// <param name="e"></param>
         public void Handle(Exception e)
         {
 #if DEBUG

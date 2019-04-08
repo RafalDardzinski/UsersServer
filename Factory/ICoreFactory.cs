@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHibernate;
-using UsersServer.AppConfig;
+﻿using UsersServer.AppConfig;
 using UsersServer.CLI;
 using UsersServer.Database;
 using UsersServer.Logger;
-using UsersServer.User;
 
 namespace UsersServer.Factory
 {
+    /// <summary>
+    /// Provides methods to create core components of the application.
+    /// </summary>
     public interface ICoreFactory
     {
         IConfigManager CreateConfigManager();

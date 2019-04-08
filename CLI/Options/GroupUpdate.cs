@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// group-update
+    /// </summary>
     [Verb("group-update", HelpText = "Change group's properties.")]
     public class GroupUpdate
     {

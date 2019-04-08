@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UsersServer.Repository
 {
-	// Repozytorium odpowiada za wykonywanie podstawowych CRUD-owych operacji na bazie danych.
 	public abstract class Repository<T> : IRepository<T> where T : class
 	{
 		protected readonly NHibernate.ISession Session;

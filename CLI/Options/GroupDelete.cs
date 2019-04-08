@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// group-delete
+    /// </summary>
     [Verb("group-delete", HelpText = "Delete a group")]
     public class GroupDelete
     {

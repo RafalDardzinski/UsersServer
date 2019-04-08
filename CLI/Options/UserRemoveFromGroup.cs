@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// user-remove-from-group
+    /// </summary>
     [Verb("user-remove-from-group", HelpText = "Remove a user from a group.")]
     public class UserRemoveFromGroup
     {

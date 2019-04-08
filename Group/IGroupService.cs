@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UsersServer.Group
 {
+    /// <summary>
+    /// Provides methods to manage groups.
+    /// </summary>
     public interface IGroupService
     {
         void Create(string name);

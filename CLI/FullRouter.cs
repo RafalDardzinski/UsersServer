@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CommandLine;
 using UsersServer.AppConfig;
 using UsersServer.CLI.Options;
@@ -8,7 +9,9 @@ using UsersServer.Logger;
 
 namespace UsersServer.CLI
 {
-    // Klasa odpowiadająca za wywoływanie funkcji serwisów w zależności od inputu przekazanego przez użytkownika.
+    /// <summary>
+    /// Provides access to all application's functionalities.
+    /// </summary>
     class FullRouter : Router, ICommandLineRouter
     {
         private readonly IServiceFactory ServiceFactory;
@@ -47,7 +50,7 @@ namespace UsersServer.CLI
                    {
                        ServiceFactory.CreateUserService(session)
                            .Create(u.FirstName, u.LastName, u.Username, u.Password);
-                       Logger.Log("User created successfully.");
+                       Logger.Log("User created.");
                        return 0;
                    },
                    (UserRead c) =>
@@ -61,42 +64,52 @@ namespace UsersServer.CLI
                    {
                        ServiceFactory.CreateUserService(session)
                            .Update(u.Id, u.FirstName, u.LastName, u.Username);
+                       Logger.Log("User updated.");
                        return 0;
                    },
                    (UserAddToGroup p) =>
                    {
                        var group = ServiceFactory.CreateGroupService(session)
                            .Read(p.GroupId).FirstOrDefault();
+                       if (group == null)
+                           throw new InvalidOperationException($"Could not find a group with ID of {p.GroupId}");
 
                        ServiceFactory.CreateUserService(session)
                            .AddToGroup(p.UserId, group);
+                       Logger.Log($"User added to group: {group.Name}");
                        return 0;
                    },
                    (UserRemoveFromGroup p) =>
                    {
                        var group = ServiceFactory.CreateGroupService(session)
                            .Read(p.GroupId).FirstOrDefault();
+                       if (group == null)
+                           throw new InvalidOperationException($"Could not find a group with ID of {p.GroupId}");
 
                        ServiceFactory.CreateUserService(session)
                            .RemoveFromGroup(p.UserId, group);
+                       Logger.Log($"User is no longer part of the group: {group.Name}");
                        return 0;
                    },
                    (UserPasswordUpdate u) =>
                    {
                        ServiceFactory.CreateUserService(session)
                            .Update(u.Id, newPassword: u.Password);
+                       Logger.Log($"Password changed.");
                        return 0;
                    },
                    (UserDelete u) =>
                    {
                        ServiceFactory.CreateUserService(session)
                            .Delete(u.Id);
+                       Logger.Log("User deleted.");
                        return 0;
                    },
                    (GroupCreate g) =>
                    {
                        ServiceFactory.CreateGroupService(session)
                            .Create(g.Name);
+                       Logger.Log("Group created.");
                        return 0;
                    },
                    (GroupRead g) =>
@@ -110,12 +123,14 @@ namespace UsersServer.CLI
                    {
                        ServiceFactory.CreateGroupService(session)
                            .Update(g.Id, g.Name);
+                       Logger.Log("Group updated.");
                        return 0;
                    },
                    (GroupDelete g) =>
                    {
                        ServiceFactory.CreateGroupService(session)
                            .Delete(g.Id);
+                       Logger.Log("Group deleted. Removed all references to the group from user instances.");
                        return 0;
                    },
                    errs => 1

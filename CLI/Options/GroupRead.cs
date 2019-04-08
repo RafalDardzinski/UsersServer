@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// group-read
+    /// </summary>
     [Verb("group-read", HelpText = "Search for groups in the database. Not passing any arguments will result in displaying all the users.")]
     public class GroupRead
     {

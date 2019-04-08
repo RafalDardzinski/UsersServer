@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UsersServer.Database
+﻿namespace UsersServer.Database
 {
+    /// <summary>
+    /// Contains data needed for connection string.
+    /// </summary>
     public class ConnectionStringData
     {
         public string ServerInstance { get; }

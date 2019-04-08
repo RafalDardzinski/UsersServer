@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// user-add-to-group
+    /// </summary>
     [Verb("user-add-to-group", HelpText = "Add user to a group.")]
     public class UserAddToGroup
     {

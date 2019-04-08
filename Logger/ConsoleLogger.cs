@@ -6,12 +6,11 @@ using UsersServer.User;
 
 namespace UsersServer.Logger
 {
+    /// <summary>
+    /// Logs data to the console.
+    /// </summary>
     public class ConsoleLogger : ILogger
     {
-        public ConsoleLogger()
-        {
-        }
-
         public void Log(string message)
         {
             Console.WriteLine(message);
@@ -27,7 +26,7 @@ namespace UsersServer.Logger
             }
             Log(displayText);
 
-            // Lokalna metoda agregująca nazwy group do których należy użytkownik i zamieniająca je na ciąg znaków.
+            // Gets a list of groups the user belongs to and joins its elements with a colon.
             string GetGroupNames(UserModel user)
             {
                 var groupNames = user.Groups.Select(g => g.Name);

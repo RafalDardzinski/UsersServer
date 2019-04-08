@@ -1,5 +1,4 @@
 ﻿using System;
-using UsersServer.CLI;
 using UsersServer.Factory;
 
 namespace UsersServer
@@ -8,6 +7,7 @@ namespace UsersServer
     {
         static void Main(string[] args)
         {
+            // Tworzenie komponentów za pomocą fabryk.
             var coreFactory = new CoreFactory();
             var router = coreFactory.CreateRouter();
             var errorHandler = coreFactory.CreateErrorHandler();

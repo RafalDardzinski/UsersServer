@@ -1,14 +1,14 @@
 ﻿using NHibernate.Cfg;
-using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Driver;
 
 namespace UsersServer.Database
 {
-    // Klasa odpowiadająca za stworzenie konfiguracji dla Database Managera.
+    /// <summary>
+    /// Configuration specific to MSSQL databases.
+    /// </summary>
     public class MsSqlConfiguration : Configuration
     {
-        // Tworzy konkretną konfigurację MSSQL dla nHibernate 
         public MsSqlConfiguration(IConnectionString connectionString, string mappingDocumentFileName = "default")
         {
             var compiledModels = MappingCompiler.CompileModels();
@@ -16,7 +16,10 @@ namespace UsersServer.Database
             AddDeserializedMapping(compiledModels, mappingDocumentFileName);
         }
         
-        // Ustawia integrację z bazą danych MSSQL na podstawie connection string.
+        /// <summary>
+        /// Sets integration with the database.
+        /// </summary>
+        /// <param name="connectionString"></param>
         private void SetDatabaseIntegration(string connectionString)
         {
             this.DataBaseIntegration(db =>

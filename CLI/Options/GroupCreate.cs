@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// group-create
+    /// </summary>
     [Verb("group-create", HelpText = "Add a group to the database")]
     public class GroupCreate
     {

@@ -2,6 +2,9 @@
 
 namespace UsersServer.CLI.Options
 {
+    /// <summary>
+    /// database-create
+    /// </summary>
     [Verb("database-create", HelpText = "Create a database and setup its schema.")]
     public class DatabaseCreate
     {
