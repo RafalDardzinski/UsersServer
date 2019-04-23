@@ -2,7 +2,7 @@
 
 namespace UsersServer.ErrorHandler
 {
-    interface IErrorHandler
+    public interface IErrorHandler
     {
         void Handle(Exception e);
     }

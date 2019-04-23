@@ -7,7 +7,7 @@ using UsersServer.Logger;
 
 namespace UsersServer.Factory
 {
-    class CoreFactory : ICoreFactory
+    public class CoreFactory : ICoreFactory
     {
         public IConfigManager CreateConfigManager()
         {

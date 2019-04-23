@@ -1,5 +1,5 @@
 ﻿using NHibernate;
-
+using NHibernate.Context;
 using Configuration = NHibernate.Cfg.Configuration;
 
 namespace UsersServer.Database
@@ -10,6 +10,8 @@ namespace UsersServer.Database
     public class SessionManager : ISessionManager
     {
         private readonly ISessionFactory _sessionFactory;
+
+        private ISession _session;
 
         /// <summary>
         /// Creates a new session manager.
@@ -22,12 +24,13 @@ namespace UsersServer.Database
 
         public ISession OpenSession()
         {
-            return _sessionFactory.OpenSession();
+            _session = _sessionFactory.OpenSession();
+            return _session;
         }
 
-        public void CloseSession(ISession session)
+        public void CloseSession()
         {
-            session.Close();
+            _session.Close();
         }
     }
 }

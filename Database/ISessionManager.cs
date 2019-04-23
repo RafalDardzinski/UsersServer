@@ -23,6 +23,7 @@ namespace UsersServer.Database
 		/// Closes a NHibernate session.
 		/// </summary>
 		/// <param name="session">NHibernate session</param>
-		void CloseSession(ISession session);
+		void CloseSession();
+
 	}
 }

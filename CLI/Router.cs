@@ -24,7 +24,7 @@ namespace UsersServer.CLI
             Database.Connect(serverInstance);
             var session = Database.Session.OpenSession();
             var connectionString = Database.Manager.Create(session, serverInstance, dbName);
-            Database.Session.CloseSession(session);
+            Database.Session.CloseSession();
 
             ConfigManager.SetConnectionString(connectionString);
             Logger.Log($"{dbName} created successfully!");
