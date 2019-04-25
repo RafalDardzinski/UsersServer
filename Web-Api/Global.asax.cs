@@ -12,13 +12,14 @@ using Autofac.Integration.WebApi;
 using NHibernate;
 using UsersServer.Database;
 using UsersServer.Factory;
+using Web_Api.App_Start;
 
 namespace Web_Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
-        private IDatabase _database;
         private ICoreFactory _coreFactory = new CoreFactory();
+        private HttpConfiguration _httpConfig = GlobalConfiguration.Configuration;
 
         protected void Application_Start()
         {
@@ -27,37 +28,19 @@ namespace Web_Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            
-
-            var configManager = _coreFactory.CreateConfigManager();
-
-            _database = _coreFactory.CreateDatabase();
-            _database.Connect(configManager);
-
-            var config = GlobalConfiguration.Configuration;
-            var builder = new ContainerBuilder();
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            SetDependancies(builder);
-            builder.RegisterWebApiFilterProvider(config);
-            var container = builder.Build();
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            InitializeIoC();
         }
 
-        private void SetDependancies(ContainerBuilder builder)
+        private void InitializeIoC()
         {
-            builder.RegisterType<ServiceFactory>().As<IServiceFactory>();
-            builder.RegisterInstance(_database.Session.OpenSession()).As<ISession>();
+          var container = new IoC(_coreFactory, _httpConfig).GetContainer();
+          _httpConfig.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
 
-        protected void Application_BeginRequest()
+        protected void Application_End(ISession session)
         {
-            //_database.Session.OpenSession();
+          session.Close();
         }
 
-        protected void Application_EndRequest()
-        {
-            //_database.Session.CloseSession();
-        }
     }
 }

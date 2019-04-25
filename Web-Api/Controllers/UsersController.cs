@@ -22,6 +22,7 @@ namespace Web_Api.Controllers
 
         public IEnumerable<UserModel> Get()
         {
+
             return _userService.Read();
         }
 
