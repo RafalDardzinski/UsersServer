@@ -8,6 +8,8 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using NHibernate;
 using UsersServer.Factory;
+using UsersServer.Group;
+using UsersServer.User;
 
 namespace Web_Api.App_Start
 {
@@ -28,14 +30,13 @@ namespace Web_Api.App_Start
       var database = _coreFactory.CreateDatabase();
       database.Connect(configManager);
 
-      //var config = GlobalConfiguration.Configuration;
-      //config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-
       var builder = new ContainerBuilder();
       builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
       builder.RegisterWebApiFilterProvider(_httpConfig);
       builder.RegisterType<ServiceFactory>().As<IServiceFactory>();
       builder.RegisterInstance(database.Session.OpenSession()).As<ISession>();
+      builder.RegisterType<UserService>().As<IUserService>();
+      builder.RegisterType<GroupService>().As<IGroupService>();
       return builder.Build();
     }
   }

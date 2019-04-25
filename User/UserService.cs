@@ -6,7 +6,7 @@ using UsersServer.Repository;
 
 namespace UsersServer.User
 {
-    class UserService : IUserService
+    public class UserService : IUserService
     {
         private readonly ISession _session;
         private readonly IUserRepository _repository;

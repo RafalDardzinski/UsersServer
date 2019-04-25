@@ -15,9 +15,9 @@ namespace Web_Api.Controllers
     {
         private readonly IUserService _userService;
 
-        public UsersController(ISession session, IServiceFactory serviceFactory)
+        public UsersController(IUserService userService)
         {
-            _userService = serviceFactory.CreateUserService(session);
+          _userService = userService;
         }
 
         public IEnumerable<UserModel> Get()

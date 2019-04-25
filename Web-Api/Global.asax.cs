@@ -18,7 +18,7 @@ namespace Web_Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
-        private ICoreFactory _coreFactory = new CoreFactory();
+        private readonly ICoreFactory _coreFactory = new CoreFactory();
         private HttpConfiguration _httpConfig = GlobalConfiguration.Configuration;
 
         protected void Application_Start()
