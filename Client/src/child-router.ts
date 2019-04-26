@@ -14,13 +14,13 @@ export class ChildRouter {
         nav: true,
         title: 'Welcome'
       },
-      {
-        route: 'users',
-        name: 'users',
-        moduleId: PLATFORM.moduleName('./users'),
-        nav: true,
-        title: 'Github Users'
-      },
+      //{
+      //  route: 'users',
+      //  name: 'users',
+      //  moduleId: PLATFORM.moduleName('./users'),
+      //  nav: true,
+      //  title: 'Github Users'
+      //},
       {
         route: 'child-router',
         name: 'child-router',

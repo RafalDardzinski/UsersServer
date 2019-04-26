@@ -1,0 +1,6 @@
+﻿<template>
+  <require from="../user/user.html"></require>
+  <p repeat.for="userData of users">
+    <user user-data.bind="userData"></user>
+  </p>
+</template>

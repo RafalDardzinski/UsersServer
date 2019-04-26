@@ -17,7 +17,7 @@ export class App {
       {
         route: 'users',
         name: 'users',
-        moduleId: PLATFORM.moduleName('./users'),
+        moduleId: PLATFORM.moduleName('./components/users-list/users-list'),
         nav: true,
         title: 'Github Users'
       },
